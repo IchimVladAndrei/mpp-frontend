@@ -1,39 +1,89 @@
 import {useState} from 'react';
 import './App.css';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import Cars from './data';
 
 function App() {
-    const [count, setCount] = useState(0);
-    // const myvar = '';
+    const [brand, setBrand] = useState('');
+    const [price, setPrice] = useState<number>(0);
+    const [yearBought, setYearBought] = useState<number>(0);
+    const [cars, setCars] = useState(Cars);
+    const handleDelete = (id: number) => {
+        const newCars = cars.filter((car) => car.id !== id);
+        setCars(newCars);
+        console.log(newCars);
+        //history('/');
+    };
+
+    const handleAdd = () => {
+        const uniqueId = cars.length ? cars[cars.length - 1].id + 1 : 1;
+        const newCar = {id: uniqueId, brand, price, yearBought};
+        setCars([...cars, newCar]);
+        console.log(newCar);
+        //history('/');
+    };
     return (
         <>
             <div>
-                <a href='https://vitejs.dev' target='_blank'>
-                    <img src={viteLogo} className='logo' alt='Vite logo' />
-                </a>
-                <a href='https://react.dev' target='_blank'>
-                    <img
-                        src={reactLogo}
-                        className='logo react'
-                        alt='React logo'
-                    />
-                </a>
+                <ul>
+                    {cars && cars.length > 0
+                        ? cars.map((item) => {
+                              return (
+                                  <li key={item.id}>
+                                      {item.brand +
+                                          ' ' +
+                                          item.price +
+                                          'K' +
+                                          ' ' +
+                                          item.yearBought}
+                                      <button
+                                          onClick={() => handleDelete(item.id)}
+                                      >
+                                          Delete
+                                      </button>
+                                      <button
+                                          onClick={() => console.log('edit')}
+                                      >
+                                          Edit
+                                      </button>
+                                  </li>
+                              );
+                          })
+                        : 'No data found'}
+                </ul>
+                <div>
+                    <label>
+                        Brand{' '}
+                        <input
+                            type='text'
+                            name='myBrand'
+                            onChange={(e) => setBrand(e.target.value)}
+                        />
+                    </label>
+                    <label>
+                        Price{' '}
+                        <input
+                            type='number'
+                            name='myPrice'
+                            onChange={(e) => setPrice(e.target.valueAsNumber)}
+                        />
+                    </label>
+                    <label>
+                        Year{' '}
+                        <input
+                            type='number'
+                            name='myYear'
+                            onChange={
+                                (e) => setYearBought(e.target.valueAsNumber)
+                                //may want to check if the input isNaN
+                            }
+                        />
+                    </label>
+                    <button onClick={handleAdd}>Add</button>
+                </div>
             </div>
-            <h1>Vite + React</h1>
-            <div className='card'>
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className='read-the-docs'>
-                Click on the Vite and React logos to learn more
-            </p>
         </>
     );
 }
 
 export default App;
+//validare date - logice,teste
