@@ -1,5 +1,6 @@
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import './App.css';
+import './axios.config';
 import Add from './pages/Add/Add';
 import Home from './pages/Home/Home';
 import Stats from './pages/Stats/Stats';

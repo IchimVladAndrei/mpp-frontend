@@ -1,5 +1,5 @@
-import {useState} from 'react';
-
+import axios from 'axios';
+import {useEffect, useState} from 'react';
 import {
     FaArrowDown,
     FaArrowLeft,
@@ -7,12 +7,32 @@ import {
     FaArrowUp,
 } from 'react-icons/fa6';
 import {Link} from 'react-router-dom';
-import Cars from '../../data.ts';
 import Edit from '../Edit/Edit.tsx';
 export default function Home() {
-    const [cars, setCars] = useState(Cars);
+    const [cars, setCars] = useState<Car[]>([]);
+    type Car = {
+        id: number;
+        brand: string;
+        price: number;
+        yearBought: number;
+    };
+
     const [updateState, setUpdateState] = useState(-1);
     const [searchKey, setSearchKey] = useState(-1);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(
+                    'http://localhost:5000/api/cars',
+                );
+                setCars(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, []);
 
     const handleEditing = (id: number) => {
         setUpdateState(id);
@@ -22,10 +42,18 @@ export default function Home() {
         setUpdateState(-1);
     };
 
-    const handleDelete = (id: number) => {
-        const newCars = cars.filter((car) => car.id !== id);
-        setCars(newCars);
-        console.log(newCars);
+    const handleDelete = async (id: number) => {
+        // const newCars = cars.filter((car) => car.id !== id);
+        // setCars(newCars);
+        // console.log(newCars);
+        try {
+            const response = await axios.delete(
+                `http://localhost:5000/api/cars/deleteCar/${id}`,
+            );
+            setCars(response.data);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const filteredCars = cars.filter((car) => {

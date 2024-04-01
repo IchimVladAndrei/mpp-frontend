@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 interface Props {
     current: {
         id: number;
@@ -32,11 +34,31 @@ export default function Edit({
 }: Props) {
     const handleInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
+        const index = cars.findIndex((item) => item.id === current.id);
+        console.log(index);
+        if (index === -1) return;
+
+        const newCar = {...cars[index], [name]: value}; //value = convert to int
+        //cars[index] = newCar;
+
         const newCars = cars.map((item) =>
             item.id === current.id ? {...item, [name]: value} : item,
         );
         if (hasDuplicateCars(newCars)) return;
-        setCars(newCars);
+
+        const fetchData = async (id: number) => {
+            try {
+                await axios.put(
+                    `http://localhost:5000/api/cars/updateCar/${id}`,
+                    newCar,
+                );
+            } catch (error) {
+                console.error('error update car ', error);
+            }
+        };
+        fetchData(current.id);
+
+        setCars(newCars); //other way to auto update the edit?
     };
 
     const hasDuplicateCars = (
