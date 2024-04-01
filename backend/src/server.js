@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+//const express=require('express');
 import carRouter from './Routers/cars.router.js';
 const app = express();
 app.use(express.json());
@@ -16,3 +17,4 @@ const PORT = 5000;
 app.listen(PORT, () => {
     console.log('listening on port ' + PORT);
 });
+module.exports = app;

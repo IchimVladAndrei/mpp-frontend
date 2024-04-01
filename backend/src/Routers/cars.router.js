@@ -54,7 +54,7 @@ router.delete('/deleteCar/:id', (req, res) => {
     //console.log(id);
     cars.splice(index, 1); //CARS will be replaced by cars  IF INDEX=-1 BREAK?
     saveCars();
-    res.json(cars);
+    res.status(204);
 });
 
 router.put('/updateCar/:id', (req, res) => {

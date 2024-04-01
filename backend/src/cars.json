@@ -61,32 +61,8 @@
     },
     {
         "id": 11,
-        "brand": "Hyundai",
-        "price": 25,
-        "yearBought": 2019
-    },
-    {
-        "id": 12,
-        "brand": "Nissan",
-        "price": 32,
-        "yearBought": 2017
-    },
-    {
-        "id": 14,
         "brand": "Lada",
-        "price": 1,
-        "yearBought": "1990"
-    },
-    {
-        "id": 15,
-        "brand": "vasa",
-        "price": 3,
-        "yearBought": 2001
-    },
-    {
-        "id": 16,
-        "brand": "vasade",
-        "price": 1,
-        "yearBought": 2006
+        "price": 101,
+        "yearBought": 2000
     }
 ]
