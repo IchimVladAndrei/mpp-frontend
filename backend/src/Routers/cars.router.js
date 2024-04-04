@@ -31,13 +31,15 @@ router.post('/addCar', (req, res) => {
     const parsedPrice = parseInt(price, 10);
     const parsedYearBought = parseInt(yearBought, 10);
     const uniqueId = cars.length ? cars[cars.length - 1].id + 1 : 1;
+    console.log(parsedPrice);
+    console.log(parsedYearBought);
     const newCar = {
         id: uniqueId,
         brand,
         price: parsedPrice,
         yearBought: parsedYearBought,
     };
-
+    console.log(newCar);
     if (!checkPropsCar(brand, parsedPrice, parsedYearBought)) {
         res.status(400).json({error: 'Invalid car properties'});
         return;
@@ -45,7 +47,7 @@ router.post('/addCar', (req, res) => {
     //console.log(car);
     cars.push(newCar);
     saveCars();
-    res.json(newCar);
+    res.status(200).json(newCar);
 });
 
 router.delete('/deleteCar/:id', (req, res) => {
@@ -69,20 +71,22 @@ router.put('/updateCar/:id', (req, res) => {
         price: parsedPrice,
         yearBought: parsedYearBought,
     };
+
     //req.body will return string
     const index = cars.findIndex((car) => car.id === id);
     cars[index] = updatedCar;
     console.log(updatedCar);
     saveCars();
-    res.json(updatedCar);
+    res.status(200).json(updatedCar);
 });
 
 router.get('/:id', (req, res) => {
     const {id} = req.params;
     const car = cars.find((car) => car.id === parseInt(id));
 
-    if (!car) {
+    if (car === null || car === undefined) {
         res.status(404).send({error: 'Car not found'});
+
         return;
     }
 
