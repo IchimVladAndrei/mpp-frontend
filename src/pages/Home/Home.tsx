@@ -7,7 +7,10 @@ import {
     FaArrowUp,
 } from 'react-icons/fa6';
 import {Link} from 'react-router-dom';
+// import {io} from 'socket.io-client';
+import socketIOClient from 'socket.io-client';
 import Edit from '../Edit/Edit.tsx';
+const socket = socketIOClient('http://localhost:5000');
 export default function Home() {
     const [cars, setCars] = useState<Car[]>([]);
     type Car = {
@@ -34,6 +37,28 @@ export default function Home() {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        // socket.on('connect', () => {
+        //     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+        // });
+        console.log('here');
+        // socket.on('newRandomCar', (newRandomCar) => {
+        //     console.log('Received new random car:', newRandomCar);
+        //     setCars((oldCars) => [...oldCars, newRandomCar]);
+        // });
+        socket.on('newRandomCar', handleNewRandomCar);
+        socket.on('error', (error) => {
+            console.error('err', error);
+        });
+        return () => {
+            socket.off('newRandomCar', handleNewRandomCar);
+        };
+    }, []);
+
+    const handleNewRandomCar = (newRandomCar: Car) => {
+        console.log('Received new random car:', newRandomCar);
+        setCars((oldCars) => [...oldCars, newRandomCar]);
+    };
     const handleEditing = (id: number) => {
         setUpdateState(id);
     };
@@ -43,16 +68,15 @@ export default function Home() {
     };
 
     const handleDelete = async (id: number) => {
-        // const newCars = cars.filter((car) => car.id !== id);
-        // setCars(newCars);
-        // console.log(newCars);
         try {
             const response = await axios.delete(
                 `http://localhost:5000/api/cars/deleteCar/${id}`,
             );
             setCars(response.data);
+            //setServerStatus(true);
         } catch (error) {
             console.log(error);
+            //setServerStatus(false);
         }
     };
 

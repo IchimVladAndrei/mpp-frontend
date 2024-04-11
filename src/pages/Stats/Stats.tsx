@@ -1,7 +1,8 @@
 import axios from 'axios';
 import Chart from 'chart.js/auto';
 import {useEffect, useRef, useState} from 'react';
-
+import socketIOClient from 'socket.io-client';
+const socket = socketIOClient('http://localhost:5000');
 export default function Stats() {
     const chartRef = useRef<Chart | null>(null);
     const [prices, setPrices] = useState<number[]>([]);
@@ -26,7 +27,20 @@ export default function Stats() {
         };
         fetchData();
     }, []);
+    useEffect(() => {
+        socket.on('newRandomCar', handleNewRandomCar);
+        socket.on('error', (error) => {
+            console.error('err', error);
+        });
+        return () => {
+            socket.off('newRandomCar', handleNewRandomCar);
+        };
+    }, []);
 
+    const handleNewRandomCar = (newRandomCar: Car) => {
+        console.log('Received new random car:', newRandomCar);
+        setPrices((oldCars) => [...oldCars, newRandomCar.price]);
+    };
     useEffect(() => {
         const cnvs = document.getElementById('carsStats');
 

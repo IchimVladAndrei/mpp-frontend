@@ -1,9 +1,25 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+import {faker} from '@faker-js/faker';
 import {Router} from 'express';
 import fs from 'fs';
-
 const router = Router();
+// const express = require('express');
+// const fs = require('fs');
+// const router = express.Router();
 
-let cars = [];
+export function generateRandomCar() {
+    const uniqueId = cars.length ? cars[cars.length - 1].id + 1 : 1;
+    const newRandomCar = {
+        id: uniqueId,
+        brand: faker.company.name(),
+        price: faker.helpers.rangeToNumber({min: 1, max: 1000}),
+        yearBought: faker.helpers.rangeToNumber({min: 1950, max: 2025}),
+    };
+    cars.push(newRandomCar);
+    saveCars();
+    return newRandomCar;
+}
+export let cars = [];
 const filePath =
     'C:\\Users\\potat\\OneDrive\\Documents\\VisualCode\\MPP\\frontend\\backend\\src\\cars.json';
 try {
@@ -31,20 +47,18 @@ router.post('/addCar', (req, res) => {
     const parsedPrice = parseInt(price, 10);
     const parsedYearBought = parseInt(yearBought, 10);
     const uniqueId = cars.length ? cars[cars.length - 1].id + 1 : 1;
-    console.log(parsedPrice);
-    console.log(parsedYearBought);
+
     const newCar = {
         id: uniqueId,
         brand,
         price: parsedPrice,
         yearBought: parsedYearBought,
     };
-    console.log(newCar);
     if (!checkPropsCar(brand, parsedPrice, parsedYearBought)) {
         res.status(400).json({error: 'Invalid car properties'});
         return;
     }
-    //console.log(car);
+
     cars.push(newCar);
     saveCars();
     res.status(200).json(newCar);
@@ -54,9 +68,16 @@ router.delete('/deleteCar/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const index = cars.map((e) => e.id).indexOf(id);
     //console.log(id);
-    cars.splice(index, 1); //CARS will be replaced by cars  IF INDEX=-1 BREAK?
+    if (index === -1) {
+        res.status(403);
+        res.send();
+        return;
+    }
+    cars.splice(index, 1);
     saveCars();
     res.status(204);
+    res.json(cars);
+    //    res.json(cars).status(204);
 });
 
 router.put('/updateCar/:id', (req, res) => {
@@ -71,11 +92,14 @@ router.put('/updateCar/:id', (req, res) => {
         price: parsedPrice,
         yearBought: parsedYearBought,
     };
-
-    //req.body will return string
     const index = cars.findIndex((car) => car.id === id);
+    // console.log(index);
+    if (index === -1) {
+        res.status(401).json({error: 'Car to update is missing'});
+        return;
+    }
     cars[index] = updatedCar;
-    console.log(updatedCar);
+
     saveCars();
     res.status(200).json(updatedCar);
 });
@@ -106,4 +130,5 @@ const checkPropsCar = (brand, price, yearBought) => {
     );
 };
 
+// module.exports = router;
 export default router;
