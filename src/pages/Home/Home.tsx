@@ -38,14 +38,6 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-        // socket.on('connect', () => {
-        //     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
-        // });
-        console.log('here');
-        // socket.on('newRandomCar', (newRandomCar) => {
-        //     console.log('Received new random car:', newRandomCar);
-        //     setCars((oldCars) => [...oldCars, newRandomCar]);
-        // });
         socket.on('newRandomCar', handleNewRandomCar);
         socket.on('error', (error) => {
             console.error('err', error);
