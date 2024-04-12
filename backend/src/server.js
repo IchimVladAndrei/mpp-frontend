@@ -6,7 +6,7 @@ import cors from 'cors';
 import express from 'express';
 import {createServer} from 'http';
 import {Server} from 'socket.io';
-import carRouter, {generateRandomCar} from './Routers/cars.router.js';
+import carRouter from './Routers/cars.router.js';
 
 const app = express();
 app.use(express.json());
@@ -27,10 +27,10 @@ const io = new Server(httpServer, {
 //'http://localhost:3000'
 app.use('/api/cars', carRouter);
 
-setInterval(() => {
-    const newRandomCar = generateRandomCar();
-    io.emit('newRandomCar', newRandomCar);
-}, 5990);
+// setInterval(() => {
+//     const newRandomCar = generateRandomCar();
+//     io.emit('newRandomCar', newRandomCar);
+// }, 5990);
 io.on('connection', (socket) => {
     console.log('client connected');
     socket.on('disconnect', () => {
@@ -41,6 +41,11 @@ const PORT = 5000;
 httpServer.listen(PORT, () => {
     console.log('listening on port ' + PORT);
 });
+
+export async function closeServer() {
+    httpServer.close();
+    // console.log(`${PORT} is closed`);
+}
 
 // module.exports = app;
 export default app;
