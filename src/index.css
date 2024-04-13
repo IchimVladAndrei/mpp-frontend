@@ -13,6 +13,18 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+nav {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    position: rela;
+    top: 0;
+    width: auto;
+}
+div {
+    margin: 0 auto;
+}
 a {
     font-weight: 500;
     color: #646cff;

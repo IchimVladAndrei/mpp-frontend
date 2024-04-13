@@ -13,25 +13,52 @@ export default function EditDealershipPage({
     setDealers,
     handleEditingClose,
 }: Props) {
+    const handleInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
+        const index = dealers.findIndex((dealer) => dealer.id === current.id);
+        if (index === -1) return;
+        //const newDealer = {...dealers[index], [name]: value};
+        const newDealers = dealers.map((item) =>
+            item.id === current.id ? {...item, [name]: value} : item,
+        );
+        if (hasDuplicateDealers(newDealers)) return;
+        console.log(newDealers);
+        setDealers(newDealers);
+    };
+
+    const hasDuplicateDealers = (dealers: Dealer[]): boolean => {
+        const seenDealers: Set<string> = new Set();
+
+        for (const dealer of dealers) {
+            const dealerKey = `${dealer.name}-${dealer.location}-${dealer.reviews}`;
+            if (seenDealers.has(dealerKey)) return true;
+            seenDealers.add(dealerKey);
+        }
+        return false;
+    };
+
     return (
-        <li>
+        <li key={current.id}>
             <input
                 type='text'
                 name='name'
-                onChange={() => console.log('implement')}
+                onChange={handleInfo}
                 value={current.name}
             />
             <input
                 type='text'
                 name='location'
-                onChange={() => console.log('implement')}
+                onChange={handleInfo}
                 value={current.location}
             />
             <input
                 type='number'
                 name='reviews'
-                onChange={() => console.log('implement')}
+                onChange={handleInfo}
                 value={current.reviews}
+                min={1}
+                max={5}
+                step={0.1}
             />
             <button type='submit' onClick={handleEditingClose}>
                 Update

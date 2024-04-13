@@ -39,79 +39,100 @@ export default function DealershipPage() {
     const currentDealers = dealers.slice(indexFirst, indexLast);
 
     return (
-        <div>
-            <ul>
-                {currentDealers && currentDealers.length > 0
-                    ? currentDealers.map((dealer) => {
-                          if (updateState === dealer.id) {
-                              return (
-                                  <EditDealershipPage
-                                      current={dealer}
-                                      dealers={dealers}
-                                      setDealers={setDealers}
-                                      handleEditingClose={handleEditingClose}
-                                  />
-                              );
-                          } else
-                              return (
-                                  <li key={dealer.id} className='dealers'>
-                                      {dealer.name +
-                                          ' ' +
-                                          dealer.location +
-                                          ' ' +
-                                          dealer.reviews}
-                                      <button
-                                          onClick={() =>
-                                              handleDelete(dealer.id)
-                                          }
-                                      >
-                                          Delete
-                                      </button>
-                                      <button
-                                          onClick={() => handleEdit(dealer.id)}
-                                      >
-                                          Edit
-                                      </button>
-                                  </li>
-                              );
-                      })
-                    : 'No data found'}
-            </ul>
-            <div>
-                <button disabled={page === 1} onClick={() => setPage(page - 1)}>
-                    <FaArrowLeft />
-                </button>
-                <input
-                    type='number'
-                    value={page}
-                    onChange={(e) => {
-                        const nextPage = parseInt(e.target.value);
-                        if (
-                            nextPage >= 1 &&
-                            nextPage <= Math.ceil(currentDealers.length / limit)
-                        ) {
-                            setPage(nextPage);
-                        }
-                    }}
-                    style={{
-                        width: '50px',
-                        textAlign: 'center',
-                        marginRight: '0.5rem',
-                        backgroundColor: 'transparent',
-                    }}
-                ></input>
-                <button
-                    disabled={indexLast >= currentDealers.length}
-                    onClick={() => setPage(page + 1)}
-                >
-                    <FaArrowRight />
-                </button>
-            </div>
-            <div className='adder'>
-                <Link to={'/dealership/add'}>
-                    <button>Add</button>
+        <>
+            <nav className='navigator'>
+                <Link to={'/'}>
+                    <button>Cars</button>
                 </Link>
-            </div>
-        </div>
+                <Link to={'/dealership'}>
+                    <button>Dealerships</button>
+                </Link>
+            </nav>
+
+            <section>
+                <ul>
+                    {currentDealers && currentDealers.length > 0
+                        ? currentDealers.map((dealer) => {
+                              if (updateState === dealer.id) {
+                                  return (
+                                      <EditDealershipPage
+                                          current={dealer}
+                                          dealers={dealers}
+                                          setDealers={setDealers}
+                                          handleEditingClose={
+                                              handleEditingClose
+                                          }
+                                      />
+                                  );
+                              } else
+                                  return (
+                                      <li key={dealer.id} className='dealers'>
+                                          {dealer.name +
+                                              ' ' +
+                                              dealer.location +
+                                              ' ' +
+                                              dealer.reviews}
+                                          <button
+                                              onClick={() =>
+                                                  handleDelete(dealer.id)
+                                              }
+                                          >
+                                              Delete
+                                          </button>
+                                          <button
+                                              onClick={() =>
+                                                  handleEdit(dealer.id)
+                                              }
+                                          >
+                                              Edit
+                                          </button>
+                                      </li>
+                                  );
+                          })
+                        : 'No data found'}
+                </ul>
+                <div>
+                    <button
+                        disabled={page === 1}
+                        onClick={() => setPage(page - 1)}
+                    >
+                        <FaArrowLeft />
+                    </button>
+                    <input
+                        type='number'
+                        value={page}
+                        onChange={(e) => {
+                            const nextPage = parseInt(e.target.value);
+                            if (
+                                nextPage >= 1 &&
+                                nextPage <=
+                                    Math.ceil(currentDealers.length / limit)
+                            ) {
+                                setPage(nextPage);
+                            }
+                        }}
+                        style={{
+                            width: '50px',
+                            textAlign: 'center',
+                            marginRight: '0.5rem',
+                            backgroundColor: 'transparent',
+                        }}
+                    ></input>
+                    <button
+                        disabled={indexLast >= currentDealers.length}
+                        onClick={() => setPage(page + 1)}
+                    >
+                        <FaArrowRight />
+                    </button>
+                </div>
+                <div className='adder'>
+                    <Link to={'/dealership/add'}>
+                        <button>Add</button>
+                    </Link>
+                </div>
+            </section>
+        </>
     );
+    //build api's
+    //to include filter, sorting?
 }

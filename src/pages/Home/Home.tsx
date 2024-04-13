@@ -96,102 +96,124 @@ export default function Home() {
     const currentCars = filteredCars.slice(indexFirst, indexLast);
 
     return (
-        <div>
-            <ul>
-                {currentCars && currentCars.length > 0
-                    ? currentCars.map((item) => {
-                          if (updateState === item.id) {
-                              return (
-                                  <Edit
-                                      current={item}
-                                      cars={cars}
-                                      setCars={setCars}
-                                      handleEditingClose={handleEditingClose}
-                                  />
-                              );
-                          } else
-                              return (
-                                  <li key={item.id} className='cars'>
-                                      {item.brand +
-                                          ' ' +
-                                          item.price +
-                                          'K' +
-                                          ' ' +
-                                          item.yearBought}
-                                      <button
-                                          onClick={() => handleDelete(item.id)}
-                                      >
-                                          Delete
-                                      </button>
-                                      <button
-                                          onClick={() => handleEditing(item.id)}
-                                      >
-                                          Edit
-                                      </button>
-                                  </li>
-                              );
-                      })
-                    : 'No data found'}
-            </ul>
-            <div>
-                <button disabled={page === 1} onClick={() => setPage(page - 1)}>
-                    <FaArrowLeft />
-                </button>
-                <input
-                    type='number'
-                    value={page}
-                    onChange={(e) => {
-                        const nextPage = parseInt(e.target.value);
-                        if (
-                            nextPage >= 1 &&
-                            nextPage <= Math.ceil(filteredCars.length / limit)
-                        ) {
-                            setPage(nextPage);
-                        }
-                    }}
-                    style={{
-                        width: '50px',
-                        textAlign: 'center',
-                        marginRight: '0.5rem',
-                        backgroundColor: 'transparent',
-                    }}
-                ></input>
-                <button
-                    disabled={indexLast >= filteredCars.length}
-                    onClick={() => setPage(page + 1)}
-                >
-                    <FaArrowRight />
-                </button>
-            </div>
-            <div className='adder'>
-                <Link to={'/add'}>
-                    {' '}
-                    <button>Add</button>
+        <>
+            <nav className='navigator'>
+                <Link to={'/'}>
+                    <button>Cars</button>
                 </Link>
-            </div>
-            <div>
-                <label>
-                    Filter greater than price{' '}
+                <Link to={'/dealership'}>
+                    <button>Dealerships</button>
+                </Link>
+            </nav>
+            <section>
+                <ul>
+                    {currentCars && currentCars.length > 0
+                        ? currentCars.map((item) => {
+                              if (updateState === item.id) {
+                                  return (
+                                      <Edit
+                                          current={item}
+                                          cars={cars}
+                                          setCars={setCars}
+                                          handleEditingClose={
+                                              handleEditingClose
+                                          }
+                                      />
+                                  );
+                              } else
+                                  return (
+                                      <li key={item.id} className='cars'>
+                                          {item.brand +
+                                              ' ' +
+                                              item.price +
+                                              'K' +
+                                              ' ' +
+                                              item.yearBought}
+                                          <button
+                                              onClick={() =>
+                                                  handleDelete(item.id)
+                                              }
+                                          >
+                                              Delete
+                                          </button>
+                                          <button
+                                              onClick={() =>
+                                                  handleEditing(item.id)
+                                              }
+                                          >
+                                              Edit
+                                          </button>
+                                      </li>
+                                  );
+                          })
+                        : 'No data found'}
+                </ul>
+                <div>
+                    <button
+                        disabled={page === 1}
+                        onClick={() => setPage(page - 1)}
+                    >
+                        <FaArrowLeft />
+                    </button>
                     <input
                         type='number'
-                        min={1}
-                        placeholder='enter min price'
+                        value={page}
                         onChange={(e) => {
-                            const inputValue = e.target.valueAsNumber;
-                            setSearchKey(isNaN(inputValue) ? -1 : inputValue);
+                            const nextPage = parseInt(e.target.value);
+                            if (
+                                nextPage >= 1 &&
+                                nextPage <=
+                                    Math.ceil(filteredCars.length / limit)
+                            ) {
+                                setPage(nextPage);
+                            }
+                        }}
+                        style={{
+                            width: '50px',
+                            textAlign: 'center',
+                            marginRight: '0.5rem',
+                            backgroundColor: 'transparent',
                         }}
                     ></input>
-                </label>
-            </div>
-            <div>
-                <button onClick={handleSort}>
-                    Sort by year{' '}
-                    {sortOrder === false ? <FaArrowUp /> : <FaArrowDown />}
-                </button>
-                <Link to={'/stats'}>
-                    <button>See Year Stats</button>
-                </Link>
-            </div>
-        </div>
+                    <button
+                        disabled={indexLast >= filteredCars.length}
+                        onClick={() => setPage(page + 1)}
+                    >
+                        <FaArrowRight />
+                    </button>
+                </div>
+                <div className='adder'>
+                    <Link to={'/add'}>
+                        {' '}
+                        <button>Add</button>
+                    </Link>
+                </div>
+                <div>
+                    <label>
+                        Filter greater than price{' '}
+                        <input
+                            type='number'
+                            min={1}
+                            placeholder='enter min price'
+                            onChange={(e) => {
+                                const inputValue = e.target.valueAsNumber;
+                                setSearchKey(
+                                    isNaN(inputValue) ? -1 : inputValue,
+                                );
+                            }}
+                        ></input>
+                    </label>
+                </div>
+                <div>
+                    <button onClick={handleSort}>
+                        Sort by year{' '}
+                        {sortOrder === false ? <FaArrowUp /> : <FaArrowDown />}
+                    </button>
+                    <Link to={'/stats'}>
+                        <button>See Year Stats</button>
+                    </Link>
+                </div>
+            </section>
+        </>
     );
 }

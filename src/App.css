@@ -14,6 +14,11 @@ li {
     border-bottom: 1px solid whitesmoke;
     border-radius: 1rem;
 }
+
+ul {
+    min-width: 356px;
+    min-height: 256px;
+}
 button {
     margin: 0.25rem;
 }
@@ -23,4 +28,10 @@ input {
     border: none;
     border-radius: 2rem;
     padding: 0.5rem;
+    width: fit-content;
+}
+
+.adderDealer {
+    display: flex;
+    flex-direction: column;
 }
