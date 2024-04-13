@@ -1,11 +1,26 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import {faker} from '@faker-js/faker';
-import {Router} from 'express';
-import fs from 'fs';
-const router = Router();
 // const express = require('express');
 // const fs = require('fs');
 // const router = express.Router();
+import {faker} from '@faker-js/faker';
+import {Router} from 'express';
+import fs from 'fs';
+import sql from 'mssql/msnodesqlv8.js';
+import {config} from '../server';
+
+const router = Router();
+
+async function getAllCars() {
+    try {
+        const pool = await sql.connect(config);
+        const res = await pool.request().query('SELECT * FROM Cars');
+        await pool.close();
+        return res.recordset;
+    } catch (error) {
+        console.log('error on query', error);
+        return [];
+    }
+}
 
 export function generateRandomCar() {
     const uniqueId = cars.length ? cars[cars.length - 1].id + 1 : 1;

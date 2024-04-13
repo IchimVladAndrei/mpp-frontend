@@ -8,6 +8,7 @@ import {createServer} from 'http';
 import {Server} from 'socket.io';
 import carRouter from './Routers/cars.router.js';
 import routerDealers from './Routers/dealerships.router.js';
+
 const app = express();
 app.use(express.json());
 app.use(
@@ -24,13 +25,18 @@ const io = new Server(httpServer, {
     },
 });
 
-//'http://localhost:3000'
+export const config = {
+    server: 'VLAD\\SQLEXPRESS',
+    database: 'Autovit',
+    driver: 'msnodesqlv8',
+    options: {
+        trustedConnection: true,
+    },
+};
+
 app.use('/api/cars', carRouter);
 app.use('/api/dealers', routerDealers);
-// setInterval(() => {
-//     const newRandomCar = generateRandomCar();
-//     io.emit('newRandomCar', newRandomCar);
-// }, 5990);
+
 io.on('connection', (socket) => {
     console.log('client connected');
     socket.on('disconnect', () => {
@@ -44,8 +50,11 @@ httpServer.listen(PORT, () => {
 
 export async function closeServer() {
     httpServer.close();
-    // console.log(`${PORT} is closed`);
 }
-
+//'http://localhost:3000'
+// setInterval(() => {
+//     const newRandomCar = generateRandomCar();
+//     io.emit('newRandomCar', newRandomCar);
+// }, 5990);
 // module.exports = app;
 export default app;
