@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "name": "ABC Motors",
+        "location": "New York",
+        "reviews": 4.5
+    },
+    {
+        "id": 2,
+        "name": "XYZ Autos",
+        "location": "Los Angeles",
+        "reviews": 4.2
+    },
+    {
+        "id": 3,
+        "name": "Super Cars Inc.",
+        "location": "Chicago",
+        "reviews": 4.8
+    },
+    {
+        "id": 4,
+        "name": "Speedy Motors",
+        "location": "Miami",
+        "reviews": 4.6
+    },
+    {
+        "id": 5,
+        "name": "Luxury Auto Group",
+        "location": "San Francisco",
+        "reviews": 4.7
+    },
+    {
+        "id": 6,
+        "name": "Elite Vehicles",
+        "location": "Dallas",
+        "reviews": 4.4
+    },
+    {
+        "id": 7,
+        "name": "Golden Wheels",
+        "location": "Seattle",
+        "reviews": 4.3
+    },
+    {
+        "id": 8,
+        "name": "Prime Motors",
+        "location": "Atlanta",
+        "reviews": 4.1
+    },
+    {
+        "id": 9,
+        "name": "Dream Cars Ltd.",
+        "location": "Houston",
+        "reviews": 4.9
+    },
+    {
+        "id": 10,
+        "name": "City Auto Mall",
+        "location": "Detroit",
+        "reviews": 4.0
+    }
+]

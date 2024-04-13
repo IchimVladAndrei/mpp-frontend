@@ -101,7 +101,7 @@ export default function Home() {
                 <Link to={'/'}>
                     <button>Cars</button>
                 </Link>
-                <Link to={'/dealership'}>
+                <Link to={'/dealerships'}>
                     <button>Dealerships</button>
                 </Link>
             </nav>

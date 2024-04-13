@@ -7,7 +7,7 @@ import express from 'express';
 import {createServer} from 'http';
 import {Server} from 'socket.io';
 import carRouter from './Routers/cars.router.js';
-
+import routerDealers from './Routers/dealerships.router.js';
 const app = express();
 app.use(express.json());
 app.use(
@@ -26,7 +26,7 @@ const io = new Server(httpServer, {
 
 //'http://localhost:3000'
 app.use('/api/cars', carRouter);
-
+app.use('/api/dealers', routerDealers);
 // setInterval(() => {
 //     const newRandomCar = generateRandomCar();
 //     io.emit('newRandomCar', newRandomCar);

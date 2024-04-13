@@ -9,7 +9,7 @@ export default function AddDealershipPage() {
 
     const handleAdd = () => {
         console.log([name, location, review]);
-        hist('/dealership');
+        hist('/dealerships');
     };
 
     return (

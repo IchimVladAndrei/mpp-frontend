@@ -44,7 +44,7 @@ export default function DealershipPage() {
                 <Link to={'/'}>
                     <button>Cars</button>
                 </Link>
-                <Link to={'/dealership'}>
+                <Link to={'/dealerships'}>
                     <button>Dealerships</button>
                 </Link>
             </nav>
