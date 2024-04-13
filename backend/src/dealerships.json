@@ -1,9 +1,9 @@
 [
     {
         "id": 1,
-        "name": "ABC Motors",
-        "location": "New York",
-        "reviews": 4.5
+        "name": "ABCars",
+        "location": "New Jersey",
+        "reviews": 4.6
     },
     {
         "id": 2,
@@ -57,6 +57,6 @@
         "id": 10,
         "name": "City Auto Mall",
         "location": "Detroit",
-        "reviews": 4.0
+        "reviews": 4
     }
 ]

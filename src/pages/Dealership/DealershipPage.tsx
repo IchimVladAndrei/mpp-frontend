@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {FaArrowLeft, FaArrowRight} from 'react-icons/fa6';
 import {Link} from 'react-router-dom';
 import EditDealershipPage from '../EditDealership/EditDealershipPage';
@@ -10,9 +10,7 @@ export type Dealer = {
     reviews: number;
 };
 export default function DealershipPage() {
-    const [dealers, setDealers] = useState<Dealer[]>([
-        {id: 1, name: 'abcde', location: 'here', reviews: 4.95},
-    ]);
+    const [dealers, setDealers] = useState<Dealer[]>([]);
     const [updateState, setUpdateState] = useState(-1);
 
     const handleEdit = (dealerId: number) => {
@@ -21,10 +19,23 @@ export default function DealershipPage() {
     const handleEditingClose = () => {
         setUpdateState(-1);
     };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get(
+                    'http://localhost:5000/api/dealers',
+                );
+                setDealers(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [dealers]);
     const handleDelete = async (dealerId: number) => {
         try {
             const res = await axios.delete(
-                `http://localhost:5000/api/dealers/deleteDealer/${dealerId}`,
+                `http://localhost:5000/api/dealers/delete/${dealerId}`,
             );
             setDealers(res.data);
         } catch (error) {
@@ -119,7 +130,7 @@ export default function DealershipPage() {
                         }}
                     ></input>
                     <button
-                        disabled={indexLast >= currentDealers.length}
+                        disabled={indexLast > currentDealers.length}
                         onClick={() => setPage(page + 1)}
                     >
                         <FaArrowRight />

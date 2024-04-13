@@ -20,13 +20,14 @@ function saveDealers() {
     }
 }
 
-routerDealers.get('/dealerships', (req, res) => {
+routerDealers.get('/', (req, res) => {
     res.send(dealers);
 });
 
-routerDealers.post('/dealerships/add', (req, res) => {
-    const {name, location, reviews} = req.body;
-    const parsedReviews = parseFloat(reviews);
+routerDealers.post('/add', (req, res) => {
+    const {name, location, review} = req.body;
+    const parsedReviews = parseFloat(review, 10);
+    //to fix precision
     const uniqueId = dealers.length ? dealers[dealers.length - 1].id + 1 : 1;
     const newDealer = {
         id: uniqueId,
@@ -43,7 +44,7 @@ routerDealers.post('/dealerships/add', (req, res) => {
     res.status(200).json(newDealer);
 });
 
-routerDealers.delete('/dealerships/delete/:id', (req, res) => {
+routerDealers.delete('/delete/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const index = dealers.map((e) => e.id).indexOf(id);
     //console.log(id);
@@ -58,7 +59,7 @@ routerDealers.delete('/dealerships/delete/:id', (req, res) => {
     res.json(dealers);
 });
 
-routerDealers.put('/dealerships/update/:id', (req, res) => {
+routerDealers.put('/update/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const {name, location, reviews} = req.body;
     const parsedReviews = parseFloat(reviews);
@@ -78,7 +79,7 @@ routerDealers.put('/dealerships/update/:id', (req, res) => {
     res.status(200).json(updatedDealer);
 });
 
-routerDealers.get('/dealerships/:id', (req, res) => {
+routerDealers.get('/:id', (req, res) => {
     const {id} = req.params;
     const dealer = dealers.find((dealer) => dealer.id === parseInt(id));
     if (dealer === null || dealer === undefined) {

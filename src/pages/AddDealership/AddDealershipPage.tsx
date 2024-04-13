@@ -1,14 +1,23 @@
+import axios from 'axios';
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
 export default function AddDealershipPage() {
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
-    const [review, setReview] = useState(1);
+    const [review, setReview] = useState(1.0);
     const hist = useNavigate();
 
-    const handleAdd = () => {
-        console.log([name, location, review]);
+    const handleAdd = async () => {
+        try {
+            await axios.post('http://localhost:5000/api/dealers/add', {
+                name,
+                location,
+                review,
+            });
+        } catch (error) {
+            console.log('add dealer error', error);
+        }
         hist('/dealerships');
     };
 
@@ -38,7 +47,10 @@ export default function AddDealershipPage() {
                     type='number'
                     name='reviews'
                     placeholder='enter a review...'
-                    onChange={(e) => setReview(e.target.valueAsNumber)}
+                    onChange={(e) => {
+                        console.log(review);
+                        setReview(e.target.valueAsNumber);
+                    }}
                     min={1}
                     max={5}
                     step={0.1}

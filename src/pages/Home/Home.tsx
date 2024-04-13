@@ -176,7 +176,7 @@ export default function Home() {
                         }}
                     ></input>
                     <button
-                        disabled={indexLast >= filteredCars.length}
+                        disabled={indexLast > filteredCars.length}
                         onClick={() => setPage(page + 1)}
                     >
                         <FaArrowRight />

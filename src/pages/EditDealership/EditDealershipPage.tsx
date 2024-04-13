@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {Dealer} from '../Dealership/DealershipPage';
 
 interface Props {
@@ -17,12 +18,24 @@ export default function EditDealershipPage({
         const {name, value} = e.target;
         const index = dealers.findIndex((dealer) => dealer.id === current.id);
         if (index === -1) return;
-        //const newDealer = {...dealers[index], [name]: value};
+        const newDealer = {...dealers[index], [name]: value};
         const newDealers = dealers.map((item) =>
             item.id === current.id ? {...item, [name]: value} : item,
         );
         if (hasDuplicateDealers(newDealers)) return;
-        console.log(newDealers);
+
+        const fetchData = async (id: number) => {
+            try {
+                await axios.put(
+                    `http://localhost:5000/api/dealers/update/${id}`,
+                    newDealer,
+                );
+            } catch (error) {
+                console.log('error update car' + error);
+            }
+        };
+        fetchData(current.id);
+
         setDealers(newDealers);
     };
 
