@@ -104,6 +104,7 @@ router.delete('/deleteCar/:id', async (req, res) => {
         const rowsAffected = await deleter(id);
 
         const newList = await read();
+        console.log(newList);
         //probabil dai un select si trimiti?
         //console.log(rowsAffected);
         rowsAffected[0] !== 0

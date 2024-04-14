@@ -68,7 +68,7 @@ export default function EditDealershipPage({
                 type='number'
                 name='reviews'
                 onChange={handleInfo}
-                value={current.reviews}
+                value={current.reviews || ''}
                 min={1}
                 max={5}
                 step={0.1}

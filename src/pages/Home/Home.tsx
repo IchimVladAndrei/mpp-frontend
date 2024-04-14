@@ -11,7 +11,17 @@ import {Link} from 'react-router-dom';
 import socketIOClient from 'socket.io-client';
 import Edit from '../Edit/Edit.tsx';
 const socket = socketIOClient('http://localhost:5000');
+
 export default function Home() {
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/cars');
+            setCars(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const [cars, setCars] = useState<Car[]>([]);
     type Car = {
         id: number;
@@ -24,16 +34,6 @@ export default function Home() {
     const [searchKey, setSearchKey] = useState(-1);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(
-                    'http://localhost:5000/api/cars',
-                );
-                setCars(response.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
         fetchData();
     }, []);
 
@@ -61,11 +61,10 @@ export default function Home() {
 
     const handleDelete = async (id: number) => {
         try {
-            const response = await axios.delete(
+            await axios.delete(
                 `http://localhost:5000/api/cars/deleteCar/${id}`,
             );
-            setCars(response.data);
-            //setServerStatus(true);
+            fetchData();
         } catch (error) {
             console.log(error);
             //setServerStatus(false);
@@ -78,7 +77,6 @@ export default function Home() {
 
     const [sortOrder, setSortOrder] = useState(false);
     //true- for ascending, false for desc
-
     const handleSort = () => {
         setSortOrder(!sortOrder);
         const K = sortOrder === true ? -1 : 1;
@@ -217,3 +215,5 @@ export default function Home() {
         </>
     );
 }
+
+//TODO: LA DELETE UN ELEMENT DA CRASH FE cars.filter not a func

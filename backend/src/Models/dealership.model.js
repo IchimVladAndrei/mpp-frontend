@@ -5,7 +5,7 @@ export const read = async () => {
     const pool = await poolPromise;
     const res = await pool
         .request()
-        .query('SELECT cid AS id, brand, price, yearBought FROM Cars');
+        .query('SELECT did AS id, name, location, reviews FROM Dealership');
 
     return res.recordset;
 };
@@ -45,14 +45,14 @@ export const create = async (name, location, reviews) => {
 
     const lastId = maxIdRes.recordset[0].maxId;
 
-    const insertedCarQuery = await pool
+    const insertedDealerQuery = await pool
         .request()
         .input('did', sql.Int, lastId)
         .query(
-            'SELECT did AS id, name,location,reviews FROM Cars WHERE did=@did ',
+            'SELECT did AS id, name,location,reviews FROM Dealership WHERE did=@did ',
         );
 
-    return insertedCarQuery.recordset[0];
+    return insertedDealerQuery.recordset[0];
 };
 
 export const updater = async (id, name, location, reviews) => {
@@ -66,7 +66,7 @@ export const updater = async (id, name, location, reviews) => {
         .query(
             'UPDATE Dealership SET name=@name,location=@location,reviews=@reviews WHERE did=@did',
         );
-    // Fetch and return the updated car
+    // Fetch and return the updated
     const {recordset} = await pool
         .request()
         .input('did', sql.Int, id)

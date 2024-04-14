@@ -10,6 +10,14 @@ export type Dealer = {
     reviews: number;
 };
 export default function DealershipPage() {
+    const fetchData = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/dealers');
+            setDealers(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     const [dealers, setDealers] = useState<Dealer[]>([]);
     const [updateState, setUpdateState] = useState(-1);
 
@@ -20,24 +28,14 @@ export default function DealershipPage() {
         setUpdateState(-1);
     };
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await axios.get(
-                    'http://localhost:5000/api/dealers',
-                );
-                setDealers(res.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
         fetchData();
     }, [dealers]);
     const handleDelete = async (dealerId: number) => {
         try {
-            const res = await axios.delete(
+            await axios.delete(
                 `http://localhost:5000/api/dealers/delete/${dealerId}`,
             );
-            setDealers(res.data);
+            fetchData();
         } catch (error) {
             console.log(error);
         }

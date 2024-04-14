@@ -6,7 +6,7 @@ const ServerDetector = (props: {children: JSX.Element | null}) => {
     useEffect(() => {
         const checkServer = async () => {
             try {
-                await axios.get('http://localhost:5000/api/cars/1');
+                await axios.get('http://localhost:5000/api/cars');
                 setServerStatus(true);
             } catch (error) {
                 console.log(error);
