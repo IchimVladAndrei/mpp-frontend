@@ -32,7 +32,7 @@ routerDealers.get('/', async (req, res) => {
         const dealers = await read();
         res.send(dealers);
     } catch (error) {
-        console.error('Error on retriever cars', error);
+        console.error('Error on retriever dealers', error);
         res.status(500).json({error: 'Database err'});
     }
 });
@@ -112,7 +112,7 @@ routerDealers.put('/update/:id', async (req, res) => {
         );
         rowsAffected[0] !== 0
             ? res.status(200).json(updatedDealer)
-            : res.status(401).json({error: 'Car to update is missing'});
+            : res.status(401).json({error: 'Dealer to update is missing'});
     } catch (error) {
         console.error('Error on update dealer', error);
     }
