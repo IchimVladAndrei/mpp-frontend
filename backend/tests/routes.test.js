@@ -43,7 +43,7 @@ describe('AddCar', () => {
         expect(cars.length).toBeGreaterThan(0);
         const addedCar = cars.find((car) => car.id === res.body.id);
         expect(addedCar).toEqual({
-            id: res.body.id,
+            id: expect.any(Number),
             brand: 'SomeBrand',
             price: 44,
             yearBought: 2024,
@@ -75,6 +75,8 @@ describe('AddCar', () => {
     });
 
     it('should stop adding same car', async () => {
+        //same car will be added because new ID is generated
+
         const res2 = await request(app).get('/api/cars');
         expect(res2.statusCode).toEqual(200);
         const cars = res2.body;
@@ -188,3 +190,4 @@ describe('deleteCar', () => {
             .send({brand: 'das', price: 22, yearBought: 2020});
     });
 });
+//eroare la a2lea run de teste e din caauza la autoincrement

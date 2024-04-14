@@ -25,23 +25,14 @@ const io = new Server(httpServer, {
     },
 });
 
-export const config = {
-    server: 'VLAD\\SQLEXPRESS',
-    database: 'Autovit',
-    driver: 'msnodesqlv8',
-    options: {
-        trustedConnection: true,
-    },
-};
-
 app.use('/api/cars', carRouter);
 app.use('/api/dealers', routerDealers);
 
-io.on('connection', (socket) => {
-    console.log('client connected');
-    socket.on('disconnect', () => {
-        console.log('client disconnected');
-    });
+io.on('connection', () => {
+    // console.log('client connected');
+    // socket.on('disconnect', () => {
+    //     console.log('client disconnected');
+    // });
 });
 const PORT = 5000;
 httpServer.listen(PORT, () => {
