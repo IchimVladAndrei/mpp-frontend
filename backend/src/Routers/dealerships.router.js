@@ -32,14 +32,14 @@ routerDealers.get('/', async (req, res) => {
         const dealers = await read();
         res.send(dealers);
     } catch (error) {
-        console.error('Error on retriever dealers', error);
+        //console.error('Error on retriever dealers', error);
         res.status(500).json({error: 'Database err'});
     }
 });
 
 routerDealers.post('/add', async (req, res) => {
-    const {name, location, review} = req.body;
-    const parsedReviews = parseFloat(review, 10);
+    const {name, location, reviews} = req.body;
+    const parsedReviews = parseFloat(reviews, 10);
     //to fix precision
     // const uniqueId = dealers.length ? dealers[dealers.length - 1].id + 1 : 1;
     // const newDealer = {
@@ -56,7 +56,7 @@ routerDealers.post('/add', async (req, res) => {
         const newDealer = await create(name, location, parsedReviews);
         res.status(200).json(newDealer);
     } catch (error) {
-        console.error(error);
+        //console.error(error);
         res.status(400).json({error: 'Invalid dealer properties'});
     }
 

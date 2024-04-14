@@ -62,7 +62,7 @@ router.get('/', async (req, res) => {
         const myCars = await read();
         res.send(myCars);
     } catch (error) {
-        console.error('Error on retriever cars', error);
+        //console.error('Error on retriever cars', error);
         res.status(500).json({error: 'Database err'});
     }
 });

@@ -17,9 +17,9 @@ describe('GetAll', () => {
             expect(element).toHaveProperty('location');
             expect(element).toHaveProperty('reviews');
             expect(typeof element.id).toBe('number');
-            expect(typeof element.brand).toBe('string');
-            expect(typeof element.price).toBe('string');
-            expect(typeof element.yearBought).toBe('number');
+            expect(typeof element.name).toBe('string');
+            expect(typeof element.location).toBe('string');
+            expect(typeof element.reviews).toBe('number');
         });
     });
 });
@@ -120,9 +120,9 @@ describe('Update Dealer', () => {
         );
         expect(updatedDealer).toEqual({
             id: 12,
-            brand: 'AnotherBrand',
-            price: 55,
-            yearBought: 2025,
+            name: 'AnotherDealership',
+            location: 'AnotherPlace',
+            reviews: 4.9,
         });
         dealersBeforeUpdate.forEach((dealer) => {
             if (dealer.id !== 12) {
