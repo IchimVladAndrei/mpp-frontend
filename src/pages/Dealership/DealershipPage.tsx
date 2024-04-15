@@ -32,12 +32,13 @@ export default function DealershipPage() {
     }, [dealers]);
     const handleDelete = async (dealerId: number) => {
         try {
-            await axios.delete(
+            const res = await axios.delete(
                 `http://localhost:5000/api/dealers/delete/${dealerId}`,
             );
             fetchData();
+            // fetchData();
         } catch (error) {
-            console.log(error);
+            alert('Cant delete a Dealership with cars');
         }
     };
 

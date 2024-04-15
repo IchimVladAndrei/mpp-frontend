@@ -32,6 +32,7 @@ describe('AddCar', () => {
         brand: 'SomeBrand',
         price: 44,
         yearBought: 2024,
+        dealer: 'Prime Motors',
     };
     it('should return the added car', async () => {
         const res = await request(app).post('/api/cars/addCar').send(carToAdd);
@@ -55,6 +56,7 @@ describe('AddCar', () => {
             brand: 'i',
             price: -5,
             yearBought: 200,
+            dealer: 'Prime Motors',
         };
         const res2 = await request(app).get('/api/cars');
         expect(res2.statusCode).toEqual(200);

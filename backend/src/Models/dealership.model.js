@@ -21,6 +21,7 @@ export const readById = async (id) => {
     const rowsAffected = res.recordset.length > 0 ? 1 : 0;
     return [res.recordset[0], rowsAffected];
 };
+
 export const deleter = async (id) => {
     const pool = await poolPromise;
     const res = await pool

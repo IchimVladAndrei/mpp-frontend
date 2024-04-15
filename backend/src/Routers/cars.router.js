@@ -68,7 +68,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/addCar', async (req, res) => {
-    const {brand, price, yearBought} = req.body;
+    const {brand, price, yearBought, dealer} = req.body;
     const parsedPrice = parseInt(price, 10);
     const parsedYearBought = parseInt(yearBought, 10);
     //const uniqueId = cars.length ? cars[cars.length - 1].id + 1 : 1;
@@ -78,7 +78,12 @@ router.post('/addCar', async (req, res) => {
     // }
 
     try {
-        const newCar = await create(brand, parsedPrice, parsedYearBought);
+        const newCar = await create(
+            brand,
+            parsedPrice,
+            parsedYearBought,
+            dealer,
+        );
         //console.log(newCar);
         res.status(200).json(newCar);
     } catch (error) {
@@ -104,7 +109,7 @@ router.delete('/deleteCar/:id', async (req, res) => {
         const rowsAffected = await deleter(id);
 
         const newList = await read();
-        console.log(newList);
+
         //probabil dai un select si trimiti?
         //console.log(rowsAffected);
         rowsAffected[0] !== 0

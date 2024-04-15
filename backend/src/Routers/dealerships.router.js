@@ -1,5 +1,6 @@
 import {Router} from 'express';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+import {carByDID} from '../Models/car.model.js';
 import {
     create,
     deleter,
@@ -7,6 +8,7 @@ import {
     readById,
     updater,
 } from '../Models/dealership.model.js';
+
 const routerDealers = Router();
 // const filePath =
 //     'C:\\Users\\potat\\OneDrive\\Documents\\VisualCode\\MPP\\frontend\\backend\\src\\dealerships.json';
@@ -75,14 +77,19 @@ routerDealers.delete('/delete/:id', async (req, res) => {
     // }
     // dealers.splice(index, 1);
     // saveDealers();
+
     try {
-        const rowsAffected = await deleter(id);
-        const newList = await read();
-        //probabil dai un select si trimiti?
-        //console.log(rowsAffected);
-        rowsAffected[0] !== 0
-            ? res.status(204).json(newList)
-            : res.status(403).send();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [_, rAffected] = await carByDID(id);
+
+        if (rAffected === 0) {
+            const rowsAffected = await deleter(id);
+            const newList = await read();
+            //console.log(rowsAffected);
+            rowsAffected[0] !== 0
+                ? res.status(204).json(newList)
+                : res.status(403).send();
+        } else res.status(505).send();
     } catch (error) {
         console.error('Error on delete player', error);
     }

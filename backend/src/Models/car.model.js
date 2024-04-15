@@ -21,6 +21,18 @@ export const readById = async (id) => {
     return [res.recordset[0], rowsAffected];
 };
 
+export const carByDID = async (did) => {
+    const pool = await poolPromise;
+    const res = await pool
+        .request()
+        .input('did', sql.Int, did)
+        .query(
+            'SELECT cid AS id, brand, price, yearBought FROM Cars WHERE did = @did',
+        );
+    const rowsAffected = res.recordset.length > 0 ? 1 : 0;
+    return [res.recordset[0], rowsAffected];
+};
+
 export const deleter = async (id) => {
     const pool = await poolPromise;
     const res = await pool
@@ -30,15 +42,23 @@ export const deleter = async (id) => {
     return res.rowsAffected;
 };
 
-export const create = async (brand, price, yearBought) => {
+export const create = async (brand, price, yearBought, dealer) => {
     const pool = await poolPromise;
+
+    const didRes = await pool
+        .request()
+        .input('name', sql.VarChar(50), dealer)
+        .query('SELECT did From Dealership WHERE name=@name');
+    const did = didRes.recordset[0].did;
+
     await pool
         .request()
         .input('brand', sql.VarChar(50), brand)
         .input('price', sql.Int, price)
-        .input('yearBought', sql.Int, yearBought) //ID WILL BE DONE VIA SQL SERVER
+        .input('yearBought', sql.Int, yearBought)
+        .input('did', sql.Int, did) //ID WILL BE DONE VIA SQL SERVER
         .query(
-            'INSERT INTO Cars (brand,price,yearBought,did) VALUES (@brand,@price,@yearBought,1)',
+            'INSERT INTO Cars (brand,price,yearBought,did) VALUES (@brand,@price,@yearBought,@did)',
         ); //1 for now we will see how will be done with did
     //return res.rowsAffected; //how to return the created car?
     // Retrieve the inserted car's ID from the query result

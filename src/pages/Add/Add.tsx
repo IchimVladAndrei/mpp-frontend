@@ -6,6 +6,7 @@ export default function Add() {
     const [brand, setBrand] = useState('');
     const [price, setPrice] = useState(0);
     const [yearBought, setYearBought] = useState(0);
+    const [dealer, setDealer] = useState('');
     const hist = useNavigate();
     const handleAdd = async () => {
         //setCars([...cars, newCar]);
@@ -16,6 +17,7 @@ export default function Add() {
                 brand,
                 price,
                 yearBought,
+                dealer,
             });
         } catch (error) {
             console.log('add player error ', error);
@@ -55,7 +57,15 @@ export default function Add() {
                     onChange={(e) => setYearBought(e.target.valueAsNumber)}
                 />
             </label>
-
+            <label>
+                Dealership{' '}
+                <input
+                    type='text'
+                    name='dealer'
+                    placeholder='enter the dealership'
+                    onChange={(e) => setDealer(e.target.value)}
+                />
+            </label>
             <Button type='submit' onClick={handleAdd}>
                 Submit
             </Button>
