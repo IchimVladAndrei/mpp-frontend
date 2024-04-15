@@ -35,7 +35,6 @@ export default function Edit({
     const handleInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
         const index = cars.findIndex((item) => item.id === current.id);
-        console.log(index);
         if (index === -1) return;
 
         const newCar = {...cars[index], [name]: value}; //value = convert to int

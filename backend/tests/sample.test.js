@@ -104,11 +104,11 @@ describe('Update Dealer', () => {
         const res0 = await request(app).get('/api/dealers');
         const dealersBeforeUpdate = res0.body;
         const res = await request(app)
-            .put('/api/dealers/update/12') //waht index
+            .put('/api/dealers/update/12')
             .send(dealerToUpdate);
         expect(res.statusCode).toEqual(200);
         expect(res.body).toEqual({
-            id: 12, //correctid
+            id: 12,
             name: 'AnotherDealership',
             location: 'AnotherPlace',
             reviews: 4.9,
@@ -150,7 +150,7 @@ describe('getDealer', () => {
         expect(res.body).toEqual(
             expect.objectContaining({
                 id: 11,
-                name: 'Tiriac Auto', //DATELE DIN TABLE
+                name: 'Tiriac Auto',
                 location: 'Ilfov',
                 reviews: 4.1,
             }),

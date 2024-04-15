@@ -48,7 +48,6 @@ export default function AddDealershipPage() {
                     name='reviews'
                     placeholder='enter a review...'
                     onChange={(e) => {
-                        console.log(review);
                         setReview(e.target.valueAsNumber);
                     }}
                     min={1}

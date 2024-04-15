@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-// const request = require('supertest');
-// const app = require('../src/server');
 import request from 'supertest';
 import app, {closeServer} from '../src/server';
 describe('GetAll', () => {

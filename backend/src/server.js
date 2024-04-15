@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-// const express = require('express');
-// const cors = require('cors');
-// const carRouter = require('./Routers/cars.router.js');
 import cors from 'cors';
 import express from 'express';
 import {createServer} from 'http';

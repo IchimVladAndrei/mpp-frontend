@@ -9,9 +9,6 @@ export default function Add() {
     const [dealer, setDealer] = useState('');
     const hist = useNavigate();
     const handleAdd = async () => {
-        //setCars([...cars, newCar]);
-        //Cars.push(newCar);
-        //console.log(newCar);
         try {
             await axios.post('http://localhost:5000/api/cars/addCar', {
                 brand,

@@ -59,11 +59,7 @@ export const create = async (brand, price, yearBought, dealer) => {
         .input('did', sql.Int, did) //ID WILL BE DONE VIA SQL SERVER
         .query(
             'INSERT INTO Cars (brand,price,yearBought,did) VALUES (@brand,@price,@yearBought,@did)',
-        ); //1 for now we will see how will be done with did
-    //return res.rowsAffected; //how to return the created car?
-    // Retrieve the inserted car's ID from the query result
-    //const insertedId = res.recordset[0].cid;
-    //console.log(insertedId + ' from sql');
+        );
     // Query the database to get the full details of the inserted car
     const maxIdRes = await pool
         .request()
@@ -80,7 +76,6 @@ export const create = async (brand, price, yearBought, dealer) => {
 
     // Return the first record (assuming only one car was inserted)
     return insertedCarQuery.recordset[0];
-    //console.log(res.recordset[0]);
 };
 
 export const updater = async (id, brand, price, yearBought) => {

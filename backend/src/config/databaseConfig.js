@@ -1,14 +1,5 @@
 import sql from 'mssql/msnodesqlv8.js';
 
-// const config = {
-//     server: 'VLAD\\SQLEXPRESS',
-//     database: 'Autovit',
-
-//     options: {
-//         trustedConnection: true,
-//     },
-// };
-
 var config = {
     connectionString:
         'Driver={ODBC Driver 17 for SQL Server};Server=VLAD\\SQLEXPRESS;Database=Autovit;Trusted_Connection=yes;',
