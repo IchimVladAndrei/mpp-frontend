@@ -23,6 +23,9 @@ const io = new Server(httpServer, {
 
 app.use('/api/cars', carRouter);
 app.use('/api/dealers', routerDealers);
+//generateThousandDealers();
+
+//generateMoreCars();
 
 io.on('connection', () => {
     // console.log('client connected');

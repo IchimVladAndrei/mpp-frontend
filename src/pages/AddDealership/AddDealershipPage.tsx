@@ -16,8 +16,17 @@ export default function AddDealershipPage() {
                 review,
             });
         } catch (error) {
+            localStorage.setItem(
+                'addDealer' + Math.floor(Math.random() * 100),
+                JSON.stringify({
+                    name: name,
+                    location: location,
+                    reviews: review,
+                }),
+            );
             console.log('add dealer error', error);
         }
+
         hist('/dealerships');
     };
 

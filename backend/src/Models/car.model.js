@@ -1,3 +1,4 @@
+import {faker} from '@faker-js/faker';
 import sql from 'mssql';
 import {poolPromise} from '../config/databaseConfig.js';
 export const read = async () => {
@@ -42,6 +43,21 @@ export const deleter = async (id) => {
     return res.rowsAffected;
 };
 
+export function generateMoreCars() {
+    for (let i = 0; i < 1000; i++) {
+        try {
+            create(
+                faker.vehicle.manufacturer(),
+                faker.helpers.rangeToNumber({min: 1, max: 300}),
+                faker.helpers.rangeToNumber({min: 1950, max: 2024}),
+                //faker.helpers.rangeToNumber({min: 40, max: 10000}),
+            );
+        } catch (error) {
+            console.log('duplicat');
+        }
+    }
+}
+
 export const create = async (brand, price, yearBought, dealer) => {
     const pool = await poolPromise;
 
@@ -51,15 +67,26 @@ export const create = async (brand, price, yearBought, dealer) => {
         .query('SELECT did From Dealership WHERE name=@name');
     const did = didRes.recordset[0].did;
 
-    await pool
-        .request()
-        .input('brand', sql.VarChar(50), brand)
-        .input('price', sql.Int, price)
-        .input('yearBought', sql.Int, yearBought)
-        .input('did', sql.Int, did) //ID WILL BE DONE VIA SQL SERVER
-        .query(
-            'INSERT INTO Cars (brand,price,yearBought,did) VALUES (@brand,@price,@yearBought,@did)',
-        );
+    try {
+        await pool
+            .request()
+            .input('brand', sql.VarChar(50), brand)
+            .input('price', sql.Int, price)
+            .input('yearBought', sql.Int, yearBought)
+            .input('did', sql.Int, did) //ID WILL BE DONE VIA SQL SERVER
+            .query(
+                'INSERT INTO Cars (brand,price,yearBought,did) VALUES (@brand,@price,@yearBought,@did)',
+            );
+    } catch (error) {
+        // Check if the error is a duplicate record error
+        if (error.number === 2601 || error.number === 2627) {
+            console.log(
+                'Duplicate record error occurred. Continuing execution.',
+            );
+        } else {
+            throw error;
+        }
+    }
     // Query the database to get the full details of the inserted car
     const maxIdRes = await pool
         .request()

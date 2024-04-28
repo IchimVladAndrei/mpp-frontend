@@ -20,16 +20,15 @@ const ServerDetector = (props: {children: JSX.Element | null}) => {
         return () => clearInterval(intervalId);
     }, []);
     return (
-        <>
-            {serverStatus ? (
-                props.children
-            ) : (
-                <div>
+        <div>
+            {!serverStatus && (
+                <>
                     <h1>Server is down</h1>
-                    <h4>Please restart the server</h4>
-                </div>
+                    <h4>Please restart server</h4>
+                </>
             )}
-        </>
+            {props.children}
+        </div>
     );
 };
 export default ServerDetector;

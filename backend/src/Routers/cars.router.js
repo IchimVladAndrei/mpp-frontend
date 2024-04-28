@@ -1,4 +1,3 @@
-import {faker} from '@faker-js/faker';
 import {Router} from 'express';
 import {
     create,
@@ -9,17 +8,6 @@ import {
 } from '..//Models/car.model.js';
 const router = Router();
 
-export function generateRandomCar() {
-    const uniqueId = cars.length ? cars[cars.length - 1].id + 1 : 1;
-    const newRandomCar = {
-        id: uniqueId,
-        brand: faker.company.name(),
-        price: faker.helpers.rangeToNumber({min: 1, max: 1000}),
-        yearBought: faker.helpers.rangeToNumber({min: 1950, max: 2025}),
-    };
-    cars.push(newRandomCar);
-    return newRandomCar;
-}
 export let cars = await read();
 
 router.get('/', async (req, res) => {
