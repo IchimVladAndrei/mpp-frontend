@@ -1,3 +1,4 @@
+import {faker} from '@faker-js/faker';
 import sql from 'mssql';
 import {poolPromise} from '../config/databaseConfig.js';
 
@@ -7,6 +8,28 @@ export const read = async () => {
         .request()
         .query('SELECT did AS id, name, location, reviews FROM Dealership');
 
+    return res.recordset;
+};
+
+export const paginateDealers = async (did, page) => {
+    const pool = await poolPromise;
+    const myQuery = `
+            SELECT cid AS id, brand, price, yearBought
+            FROM Cars
+            WHERE did = @did
+            ORDER BY cid
+            OFFSET @offset ROWS
+            FETCH NEXT @pageSize ROWS ONLY
+        `;
+
+    const pageSize = 50;
+    const offset = (page - 1) * pageSize;
+    const res = await pool
+        .request()
+        .input('did', sql.Int, did)
+        .input('offset', sql.Int, offset)
+        .input('pageSize', sql.Int, pageSize)
+        .query(myQuery);
     return res.recordset;
 };
 
@@ -30,6 +53,17 @@ export const deleter = async (id) => {
         .query('DELETE FROM Dealership WHERE did = @did');
     return res.rowsAffected;
 };
+
+export const generateThousandDealers = () => {
+    for (let i = 0; i < 0; i++) {
+        create(
+            faker.company.name(),
+            faker.location.city(),
+            faker.helpers.rangeToNumber({min: 10, max: 49}) / 10,
+        );
+    }
+};
+
 export const create = async (name, location, reviews) => {
     const pool = await poolPromise;
     await pool

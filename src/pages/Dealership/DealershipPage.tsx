@@ -1,7 +1,12 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 import {FaArrowLeft, FaArrowRight} from 'react-icons/fa6';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import {
+    checkOnlineService,
+    checkServerService,
+    syncWithServer,
+} from '../../service';
 import EditDealershipPage from '../EditDealership/EditDealershipPage';
 export type Dealer = {
     id: number;
@@ -10,6 +15,14 @@ export type Dealer = {
     reviews: number;
 };
 export default function DealershipPage() {
+    const hist = useNavigate();
+
+    const areWeOnline = async () => {
+        if ((await checkServerService()) && checkOnlineService())
+            await syncWithServer();
+        hist('/dealerships');
+    };
+
     const fetchData = async () => {
         try {
             const res = await axios.get('http://localhost:5000/api/dealers');
@@ -28,8 +41,9 @@ export default function DealershipPage() {
         setUpdateState(-1);
     };
     useEffect(() => {
+        areWeOnline();
         fetchData();
-    }, [dealers]);
+    }, []); //i had Deaelers in the []
     const handleDelete = async (dealerId: number) => {
         try {
             await axios.delete(
@@ -41,7 +55,7 @@ export default function DealershipPage() {
         }
     };
 
-    const limit = 5;
+    const limit = 50;
     const [page, setPage] = useState(1);
     const indexLast = page * limit;
     const indexFirst = indexLast - limit;
@@ -56,6 +70,7 @@ export default function DealershipPage() {
                 <Link to={'/dealerships'}>
                     <button>Dealerships</button>
                 </Link>
+                <button onClick={areWeOnline}>sync</button>
             </nav>
 
             <section>
@@ -95,6 +110,10 @@ export default function DealershipPage() {
                                           >
                                               Edit
                                           </button>
+                                          <Link to={'/viewDealer/' + dealer.id}>
+                                              {' '}
+                                              <button>View Cars</button>{' '}
+                                          </Link>
                                       </li>
                                   );
                           })
@@ -114,8 +133,7 @@ export default function DealershipPage() {
                             const nextPage = parseInt(e.target.value);
                             if (
                                 nextPage >= 1 &&
-                                nextPage <=
-                                    Math.ceil(currentDealers.length / limit)
+                                nextPage <= Math.ceil(dealers.length / limit)
                             ) {
                                 setPage(nextPage);
                             }
@@ -128,7 +146,7 @@ export default function DealershipPage() {
                         }}
                     ></input>
                     <button
-                        disabled={indexLast > currentDealers.length}
+                        disabled={indexLast > dealers.length}
                         onClick={() => setPage(page + 1)}
                     >
                         <FaArrowRight />

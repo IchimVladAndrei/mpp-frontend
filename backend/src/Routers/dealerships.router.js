@@ -4,6 +4,7 @@ import {carByDID} from '../Models/car.model.js';
 import {
     create,
     deleter,
+    paginateDealers,
     read,
     readById,
     updater,
@@ -20,11 +21,25 @@ routerDealers.get('/', async (req, res) => {
     }
 });
 
+routerDealers.get('/fetch/:id/cars', async (req, res) => {
+    try {
+        const page = req.query.page;
+        const did = req.params.id;
+        const pagedDealers = await paginateDealers(did, page);
+        //if we get no records there is nothing more to display
+        res.status(200).json(pagedDealers);
+    } catch (error) {
+        res.status(500).json({error: 'Database err'});
+    }
+});
+
 routerDealers.post('/add', async (req, res) => {
     const {name, location, reviews} = req.body;
+
     const parsedReviews = parseFloat(reviews, 10);
     try {
         const newDealer = await create(name, location, parsedReviews);
+
         res.status(200).json(newDealer);
     } catch (error) {
         res.status(400).json({error: 'Invalid dealer properties'});

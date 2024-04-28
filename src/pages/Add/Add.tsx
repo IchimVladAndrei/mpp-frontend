@@ -17,6 +17,15 @@ export default function Add() {
                 dealer,
             });
         } catch (error) {
+            localStorage.setItem(
+                'addCar' + Math.floor(Math.random() * 100),
+                JSON.stringify({
+                    brand: brand,
+                    price: price,
+                    yearBought: yearBought,
+                    dealer: dealer,
+                }),
+            );
             console.log('add player error ', error);
         }
 

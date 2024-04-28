@@ -1,7 +1,7 @@
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import './App.css';
 import './axios.config';
-import ServerDetector from './components/ServerDetector/ServerDetector';
+import DealerCarPage from './components/DealerCarPage';
 import NetDetector from './components/netDetector/netDetector';
 import Add from './pages/Add/Add';
 import AddDealershipPage from './pages/AddDealership/AddDealershipPage';
@@ -12,23 +12,25 @@ function App() {
     return (
         <>
             <NetDetector>
-                <ServerDetector>
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path='/' element={<Home />} />
-                            <Route path='/add' element={<Add />} />
-                            <Route path='/stats' element={<Stats />} />
-                            <Route
-                                path='/dealerships'
-                                element={<DealershipPage />}
-                            />
-                            <Route
-                                path='/dealership/add'
-                                element={<AddDealershipPage />}
-                            />
-                        </Routes>
-                    </BrowserRouter>
-                </ServerDetector>
+                <BrowserRouter>
+                    <Routes>
+                        <Route
+                            path='/viewDealer/:id'
+                            Component={DealerCarPage}
+                        />
+                        <Route path='/' element={<Home />} />
+                        <Route path='/add' element={<Add />} />
+                        <Route path='/stats' element={<Stats />} />
+                        <Route
+                            path='/dealerships'
+                            element={<DealershipPage />}
+                        />
+                        <Route
+                            path='/dealership/add'
+                            element={<AddDealershipPage />}
+                        />
+                    </Routes>
+                </BrowserRouter>
             </NetDetector>
         </>
     );

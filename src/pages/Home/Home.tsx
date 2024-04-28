@@ -6,13 +6,30 @@ import {
     FaArrowRight,
     FaArrowUp,
 } from 'react-icons/fa6';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 // import {io} from 'socket.io-client';
 import socketIOClient from 'socket.io-client';
+import {
+    checkOnlineService,
+    checkServerService,
+    syncWithServer,
+} from '../../service.ts';
 import Edit from '../Edit/Edit.tsx';
 const socket = socketIOClient('http://localhost:5000');
-
+export type Car = {
+    id: number;
+    brand: string;
+    price: number;
+    yearBought: number;
+};
 export default function Home() {
+    const hist = useNavigate();
+
+    const areWeOnline = async () => {
+        if ((await checkServerService()) && checkOnlineService())
+            await syncWithServer();
+        hist('/');
+    };
     const fetchData = async () => {
         try {
             const response = await axios.get('http://localhost:5000/api/cars');
@@ -23,17 +40,12 @@ export default function Home() {
     };
 
     const [cars, setCars] = useState<Car[]>([]);
-    type Car = {
-        id: number;
-        brand: string;
-        price: number;
-        yearBought: number;
-    };
 
     const [updateState, setUpdateState] = useState(-1);
     const [searchKey, setSearchKey] = useState(-1);
 
     useEffect(() => {
+        areWeOnline();
         fetchData();
     }, []);
 
@@ -86,7 +98,7 @@ export default function Home() {
         setCars(sortedCars);
     };
 
-    const limit = 5;
+    const limit = 50;
     const [page, setPage] = useState(1);
 
     const indexLast = page * limit;
@@ -102,6 +114,7 @@ export default function Home() {
                 <Link to={'/dealerships'}>
                     <button>Dealerships</button>
                 </Link>
+                <button onClick={areWeOnline}>sync</button>
             </nav>
             <section>
                 <ul>
