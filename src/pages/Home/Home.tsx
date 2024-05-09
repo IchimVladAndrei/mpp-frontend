@@ -98,7 +98,11 @@ export default function Home() {
         setCars(sortedCars);
     };
 
+<<<<<<< HEAD
     const limit = 10;
+=======
+    const limit = 50;
+>>>>>>> 4a6faad1a2aef48b3fce3b33fe8450f7c9da8e3d
     const [page, setPage] = useState(1);
 
     const indexLast = page * limit;
