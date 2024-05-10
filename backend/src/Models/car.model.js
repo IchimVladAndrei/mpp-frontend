@@ -83,17 +83,11 @@ export const create = async (brand, price, yearBought, dealer) => {
             console.log(
                 'Duplicate record error occurred. Continuing execution.',
             );
-<<<<<<< HEAD
         } else {
-=======
-            // You can choose to log the error or perform other actions if needed
-        } else {
-            // If it's not a duplicate record error, rethrow the error to be caught by the caller
->>>>>>> 4a6faad1a2aef48b3fce3b33fe8450f7c9da8e3d
             throw error;
         }
     }
-    // Query the database to get the full details of the inserted car
+
     const maxIdRes = await pool
         .request()
         .query('SELECT MAX(cid) AS maxId FROM Cars');
@@ -107,7 +101,6 @@ export const create = async (brand, price, yearBought, dealer) => {
             'SELECT cid AS id, brand, price, yearBought FROM Cars WHERE cid=@cid ',
         );
 
-    // Return the first record (assuming only one car was inserted)
     return insertedCarQuery.recordset[0];
 };
 

@@ -31,6 +31,7 @@ export const syncWithServer = async () => {
                 } catch (error) {
                     console.log('error on sync dealers', error);
                 }
+                localStorage.removeItem(key); //delete here
             }
         } else if (key && key.startsWith('addCar')) {
             const record = localStorage.getItem(key);
@@ -44,8 +45,39 @@ export const syncWithServer = async () => {
                 } catch (error) {
                     console.log('error on sync cars', error);
                 }
+                localStorage.removeItem(key); //delete here
             }
         }
     }
-    localStorage.clear();
+    //localstorage.deleteALL
+};
+
+export const getUser = () => {
+    const record = localStorage.getItem('user');
+
+    if (record) {
+        return JSON.parse(record);
+    } else {
+        return null;
+    }
+};
+export const login = async (email: string, pass: string) => {
+    const {data} = await axios.post('http://localhost:5000/api/users/login', {
+        email,
+        pass,
+    });
+    localStorage.setItem('user', JSON.stringify(data));
+    return data;
+};
+
+export const logout = () => {
+    localStorage.removeItem('user');
+};
+export const register = async (newUser) => {
+    const {data} = await axios.post(
+        'http://localhost:5000/api/users/register',
+        newUser,
+    );
+    localStorage.setItem('user', JSON.stringify(data));
+    return data;
 };

@@ -4,6 +4,7 @@ import {createServer} from 'http';
 import {Server} from 'socket.io';
 import carRouter from './Routers/cars.router.js';
 import routerDealers from './Routers/dealerships.router.js';
+import userRouter from './Routers/user.router.js';
 
 const app = express();
 app.use(express.json());
@@ -23,6 +24,7 @@ const io = new Server(httpServer, {
 
 app.use('/api/cars', carRouter);
 app.use('/api/dealers', routerDealers);
+app.use('/api/users', userRouter);
 //generateThousandDealers();
 
 //generateMoreCars();

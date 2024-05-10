@@ -1,0 +1,49 @@
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+.company-name {
+    font-size: 20px;
+    text-decoration: none;
+    color: #fff;
+}
+
+nav {
+    display: flex;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.user-info span {
+    margin-right: 10px;
+}
+
+.logout-btn {
+    padding: 5px 10px;
+    background-color: #ff4500;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.login-link {
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 3px;
+}
+
+.login-link:hover {
+    background-color: #fff;
+    color: #333;
+}

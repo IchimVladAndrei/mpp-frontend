@@ -55,11 +55,7 @@ export default function DealershipPage() {
         }
     };
 
-<<<<<<< HEAD
     const limit = 10;
-=======
-    const limit = 50;
->>>>>>> 4a6faad1a2aef48b3fce3b33fe8450f7c9da8e3d
     const [page, setPage] = useState(1);
     const indexLast = page * limit;
     const indexFirst = indexLast - limit;
@@ -67,16 +63,6 @@ export default function DealershipPage() {
 
     return (
         <>
-            <nav className='navigator'>
-                <Link to={'/'}>
-                    <button>Cars</button>
-                </Link>
-                <Link to={'/dealerships'}>
-                    <button>Dealerships</button>
-                </Link>
-                <button onClick={areWeOnline}>sync</button>
-            </nav>
-
             <section>
                 <ul>
                     {currentDealers && currentDealers.length > 0
@@ -161,6 +147,9 @@ export default function DealershipPage() {
                         <button>Add</button>
                     </Link>
                 </div>
+                <nav className='navigator'>
+                    <button onClick={areWeOnline}>sync</button>
+                </nav>
             </section>
         </>
     );

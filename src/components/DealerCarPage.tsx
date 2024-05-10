@@ -5,13 +5,7 @@ import {Car} from '../pages/Home/Home';
 
 export default function DealerCarPage() {
     const {id} = useParams();
-<<<<<<< HEAD
     const [cars, setCars] = useState<Car[]>([]);
-=======
-    const [cars, setCars] = useState<Car[]>([
-        //{id: 0, brand: 'Abrand', price: 20, yearBought: 1999},
-    ]);
->>>>>>> 4a6faad1a2aef48b3fce3b33fe8450f7c9da8e3d
     const [allCarsLoaded, setAllCarsLoaded] = useState(false);
     const [page, setPage] = useState(1);
 
@@ -52,11 +46,6 @@ export default function DealerCarPage() {
             setPage((prevPage) => prevPage + 1);
             //fetchCars();
         }
-<<<<<<< HEAD
-=======
-        //al 3 lea item la fel din cauza la pagina pe care o preia modify query
-        //fix issue with duplicate item.key
->>>>>>> 4a6faad1a2aef48b3fce3b33fe8450f7c9da8e3d
     };
     const [dealerName, setDealerName] = useState('');
     useEffect(() => {
@@ -73,11 +62,7 @@ export default function DealerCarPage() {
             <div
                 onScroll={handleScroll}
                 style={{
-<<<<<<< HEAD
                     height: '300px',
-=======
-                    height: '300px', /// aici pune mai mic sau mai mare ca sa mearga scrollu
->>>>>>> 4a6faad1a2aef48b3fce3b33fe8450f7c9da8e3d
                     overflowY: 'scroll',
                     border: '1px solid #ccc',
                     width: 'auto',

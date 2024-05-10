@@ -98,11 +98,7 @@ export default function Home() {
         setCars(sortedCars);
     };
 
-<<<<<<< HEAD
     const limit = 10;
-=======
-    const limit = 50;
->>>>>>> 4a6faad1a2aef48b3fce3b33fe8450f7c9da8e3d
     const [page, setPage] = useState(1);
 
     const indexLast = page * limit;
@@ -111,15 +107,7 @@ export default function Home() {
 
     return (
         <>
-            <nav className='navigator'>
-                <Link to={'/'}>
-                    <button>Cars</button>
-                </Link>
-                <Link to={'/dealerships'}>
-                    <button>Dealerships</button>
-                </Link>
-                <button onClick={areWeOnline}>sync</button>
-            </nav>
+            {' '}
             <section>
                 <ul>
                     {currentCars && currentCars.length > 0
@@ -226,7 +214,10 @@ export default function Home() {
                     </button>
                     <Link to={'/stats'}>
                         <button>See Year Stats</button>
-                    </Link>
+                    </Link>{' '}
+                    <nav className='navigator'>
+                        <button onClick={areWeOnline}>sync</button>
+                    </nav>
                 </div>
             </section>
         </>
