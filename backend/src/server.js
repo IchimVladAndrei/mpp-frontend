@@ -1,11 +1,14 @@
 import cors from 'cors';
 import express from 'express';
 import {createServer} from 'http';
+import path, {dirname} from 'path';
 import {Server} from 'socket.io';
+import {fileURLToPath} from 'url';
 import carRouter from './Routers/cars.router.js';
 import routerDealers from './Routers/dealerships.router.js';
 import userRouter from './Routers/user.router.js';
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const app = express();
 app.use(express.json());
 app.use(
@@ -25,9 +28,13 @@ const io = new Server(httpServer, {
 app.use('/api/cars', carRouter);
 app.use('/api/dealers', routerDealers);
 app.use('/api/users', userRouter);
-//generateThousandDealers();
 
-//generateMoreCars();
+const publicFolder = path.join(__dirname, 'public');
+app.use(express.static(publicFolder));
+app.get('*', (req, res) => {
+    const indexFilePath = path.join(publicFolder, 'index.html');
+    res.sendFile(indexFilePath);
+});
 
 io.on('connection', () => {
     // console.log('client connected');
@@ -35,7 +42,7 @@ io.on('connection', () => {
     //     console.log('client disconnected');
     // });
 });
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 httpServer.listen(PORT, () => {
     console.log('listening on port ' + PORT);
 });

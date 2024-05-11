@@ -53,7 +53,8 @@ const generateTokenResponse = (user) => {
             email: user.email,
             isAdmin: user.isAdmin,
         },
-        'nFJ@O!FN', //to store securely this hash
+        process.env.JWT_TOKEN, //to store securely this hash
+        {expiresIn: '7d'},
     );
     return {
         id: user.id,
