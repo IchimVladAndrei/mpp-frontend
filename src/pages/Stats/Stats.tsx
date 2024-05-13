@@ -42,7 +42,7 @@ export default function Stats() {
         setPrices((oldCars) => [...oldCars, newRandomCar.price]);
     };
     useEffect(() => {
-        const cnvs = document.getElementById('carsStats');
+        const cnvs = document.getElementById('carsStats') as HTMLCanvasElement;
 
         const intervals: {[key: string]: number} = {
             '<10K': 0,

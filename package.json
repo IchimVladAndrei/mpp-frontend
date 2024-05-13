@@ -10,7 +10,7 @@
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview",
         "prebuild": "cd backend && npm install & npm install ",
-        "postbuild": "mv -f build backend/src/public"
+        "postbuild": "move /Y C:\\Users\\potat\\OneDrive\\Documents\\VisualCode\\MPP\\frontend\\dist backend\\src\\public"
     },
     "dependencies": {
         "axios": "^1.6.8",

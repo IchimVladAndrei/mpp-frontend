@@ -33,6 +33,7 @@ export default function RegisterPage() {
                 <h1>Register</h1>
                 <form onSubmit={handleSubmit(submit)} noValidate>
                     <Input
+                        defaultValue={undefined}
                         type='text'
                         label='Name'
                         {...register('name', {
@@ -43,6 +44,7 @@ export default function RegisterPage() {
                     />
 
                     <Input
+                        defaultValue={undefined}
                         type='email'
                         label='Email'
                         {...register('email', {
@@ -56,6 +58,7 @@ export default function RegisterPage() {
                     />
 
                     <Input
+                        defaultValue={undefined}
                         type='password'
                         label='Password'
                         {...register('pass', {
@@ -66,6 +69,7 @@ export default function RegisterPage() {
                     />
 
                     <Input
+                        defaultValue={undefined}
                         type='password'
                         label='Confirm password'
                         {...register('confirmPass', {
