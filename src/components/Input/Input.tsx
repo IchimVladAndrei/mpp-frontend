@@ -20,7 +20,7 @@ function Input(
     };
 
     return (
-        <InputContainer>
+        <InputContainer label={undefined} bgColor={undefined}>
             <input
                 defaultValue={defaultValue}
                 type={type}
