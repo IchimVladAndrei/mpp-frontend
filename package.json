@@ -11,6 +11,7 @@
         "preview": "vite preview",
         "prebuild": "cd backend && npm install & npm install ",
         "postbuild": "mv -f dist backend/src/public"
+
     },
     "dependencies": {
         "axios": "^1.6.8",
