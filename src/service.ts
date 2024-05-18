@@ -67,6 +67,7 @@ export const login = async (email: string, pass: string) => {
         pass,
     });
     localStorage.setItem('user', JSON.stringify(data));
+
     return data;
 };
 
@@ -80,4 +81,28 @@ export const register = async (newUser) => {
     );
     localStorage.setItem('user', JSON.stringify(data));
     return data;
+};
+
+export const getToken = () => {
+    const user = getUser();
+    return user ? user.token : null;
+};
+
+export const getAccess = async () => {
+    const token = getToken();
+
+    if (token) {
+        try {
+            await axios.get('http://localhost:5000/api/users/admin', {
+                headers: {
+                    Authorization: token,
+                },
+            });
+            return true;
+        } catch (error) {
+            console.log('user no rights');
+            return false;
+        }
+    }
+    //axios interceptor
 };

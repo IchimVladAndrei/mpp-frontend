@@ -9,6 +9,7 @@ import {
 import {Link, useNavigate} from 'react-router-dom';
 // import {io} from 'socket.io-client';
 import socketIOClient from 'socket.io-client';
+import {useAuth} from '../../hooks/useAuth.tsx';
 import {
     checkOnlineService,
     checkServerService,
@@ -24,7 +25,7 @@ export type Car = {
 };
 export default function Home() {
     const hist = useNavigate();
-
+    const {access} = useAuth();
     const areWeOnline = async () => {
         if ((await checkServerService()) && checkOnlineService())
             await syncWithServer();
@@ -64,6 +65,10 @@ export default function Home() {
         setCars((oldCars) => [...oldCars, newRandomCar]);
     };
     const handleEditing = (id: number) => {
+        if (!access) {
+            alert('You dont have the rights ');
+            return;
+        }
         setUpdateState(id);
     };
 
@@ -72,6 +77,10 @@ export default function Home() {
     };
 
     const handleDelete = async (id: number) => {
+        if (!access) {
+            alert('You dont have the rights ');
+            return;
+        }
         try {
             await axios.delete(
                 `http://localhost:5000/api/cars/deleteCar/${id}`,

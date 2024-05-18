@@ -24,7 +24,7 @@ userRouter.post('/register', async (req, res) => {
 
     try {
         const user = await userByEmail(email);
-        console.log(user);
+
         if (user) {
             res.status(432).send('User already exists');
             return;
@@ -45,6 +45,31 @@ userRouter.post('/register', async (req, res) => {
         console.log(error);
     }
 });
+
+userRouter.get('/admin', async (req, res) => {
+    const token = req.header('Authorization');
+
+    const isUserAdmin = await verifyAdmin(token);
+    if (isUserAdmin != null) {
+        res.status(200).send(isUserAdmin);
+    } else res.status(401).send('Access denied');
+});
+
+async function verifyAdmin(token) {
+    if (!token) {
+        return null;
+    }
+    try {
+        const user = jwt.verify(token, process.env.JWT_TOKEN);
+
+        if (user.isAdmin === true) {
+            return user;
+        }
+        return null;
+    } catch (error) {
+        return null;
+    }
+}
 
 const generateTokenResponse = (user) => {
     const token = jwt.sign(

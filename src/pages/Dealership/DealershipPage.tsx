@@ -2,6 +2,7 @@ import axios from 'axios';
 import {useEffect, useState} from 'react';
 import {FaArrowLeft, FaArrowRight} from 'react-icons/fa6';
 import {Link, useNavigate} from 'react-router-dom';
+import {useAuth} from '../../hooks/useAuth';
 import {
     checkOnlineService,
     checkServerService,
@@ -16,7 +17,7 @@ export type Dealer = {
 };
 export default function DealershipPage() {
     const hist = useNavigate();
-
+    const {access} = useAuth();
     const areWeOnline = async () => {
         if ((await checkServerService()) && checkOnlineService())
             await syncWithServer();
@@ -35,6 +36,10 @@ export default function DealershipPage() {
     const [updateState, setUpdateState] = useState(-1);
 
     const handleEdit = (dealerId: number) => {
+        if (!access) {
+            alert('You dont have the rights ');
+            return;
+        }
         setUpdateState(dealerId);
     };
     const handleEditingClose = () => {
@@ -44,7 +49,12 @@ export default function DealershipPage() {
         areWeOnline();
         fetchData();
     }, []); //i had Deaelers in the []
+
     const handleDelete = async (dealerId: number) => {
+        if (!access) {
+            alert('You dont have the rights ');
+            return;
+        }
         try {
             await axios.delete(
                 `http://localhost:5000/api/dealers/delete/${dealerId}`,

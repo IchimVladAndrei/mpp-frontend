@@ -1,14 +1,20 @@
 import axios from 'axios';
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import {useAuth} from '../../hooks/useAuth';
 
 export default function AddDealershipPage() {
+    const {access} = useAuth();
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [review, setReview] = useState(1.0);
     const hist = useNavigate();
 
     const handleAdd = async () => {
+        if (!access) {
+            alert('You dont have the rights ');
+            return;
+        }
         try {
             await axios.post('http://localhost:5000/api/dealers/add', {
                 name,

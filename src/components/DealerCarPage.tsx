@@ -19,7 +19,6 @@ export default function DealerCarPage() {
             if (resp.data.length === 0) setAllCarsLoaded(true);
             else {
                 setCars((prevCars) => [...prevCars, ...resp.data]);
-                console.log('data set ', page);
             }
         } catch (error) {
             console.error('Error fetching cars ', error);

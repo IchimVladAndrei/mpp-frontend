@@ -12,6 +12,7 @@ import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 import Stats from './pages/Stats/Stats';
 function App() {
+    //i may want to delete netdetector
     return (
         <>
             <NetDetector>

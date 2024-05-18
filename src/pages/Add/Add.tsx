@@ -2,13 +2,19 @@ import axios from 'axios';
 import {useState} from 'react';
 import {Button} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
+import {useAuth} from '../../hooks/useAuth';
 export default function Add() {
+    const {access} = useAuth();
     const [brand, setBrand] = useState('');
     const [price, setPrice] = useState(0);
     const [yearBought, setYearBought] = useState(0);
     const [dealer, setDealer] = useState('');
     const hist = useNavigate();
     const handleAdd = async () => {
+        if (!access) {
+            alert('You dont have the rights ');
+            return;
+        }
         try {
             await axios.post('http://localhost:5000/api/cars/addCar', {
                 brand,

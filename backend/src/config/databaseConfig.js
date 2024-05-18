@@ -1,5 +1,8 @@
 import dotenv from 'dotenv';
 import sql from 'mssql/msnodesqlv8.js';
+
+import mysql from 'mysql';
+
 dotenv.config();
 console.log(typeof process.env.SQL_URL);
 if (process.env.SQL_URL) {
@@ -16,3 +19,10 @@ export const poolPromise = new sql.ConnectionPool(config)
         return pool;
     })
     .catch((err) => console.log('database conn failed', err));
+
+export var con = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'MPP',
+});
