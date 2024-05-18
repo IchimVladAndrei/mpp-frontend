@@ -6,7 +6,9 @@ const ServerDetector = (props: {children: JSX.Element | null}) => {
     useEffect(() => {
         const checkServer = async () => {
             try {
-                await axios.get('http://localhost:5000/api/cars');
+                await axios.get(
+                    'https://mpp1-7516832ded6b.herokuapp.com/api/cars',
+                );
                 setServerStatus(true);
             } catch (error) {
                 console.log(error);

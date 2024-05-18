@@ -26,7 +26,9 @@ export default function DealershipPage() {
 
     const fetchData = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/dealers');
+            const res = await axios.get(
+                'https://mpp1-7516832ded6b.herokuapp.com/api/dealers',
+            );
             setDealers(res.data);
         } catch (error) {
             console.log(error);
@@ -57,7 +59,7 @@ export default function DealershipPage() {
         }
         try {
             await axios.delete(
-                `http://localhost:5000/api/dealers/delete/${dealerId}`,
+                `https://mpp1-7516832ded6b.herokuapp.com/api/dealers/delete/${dealerId}`,
             );
             fetchData();
         } catch (error) {

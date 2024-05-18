@@ -21,8 +21,9 @@ export const poolPromise = new sql.ConnectionPool(config)
     .catch((err) => console.log('database conn failed', err));
 */
 export var con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'MPP',
+    host: 'eu-cluster-west-01.k8s.cleardb.net',
+    user: 'bb7bf2c44a0ab9',
+    password: 'c96a4849',
+    database: 'heroku_acf2271dabe964f',
 });
+//mysql://bb7bf2c44a0ab9:c96a4849@eu-cluster-west-01.k8s.cleardb.net/heroku_acf2271dabe964f?reconnect=true

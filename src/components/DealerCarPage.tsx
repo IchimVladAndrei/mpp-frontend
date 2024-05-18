@@ -12,7 +12,7 @@ export default function DealerCarPage() {
     const fetchCars = async () => {
         try {
             const resp = await axios.get(
-                `http://localhost:5000/api/dealers/fetch/${id}/cars`,
+                `https://mpp1-7516832ded6b.herokuapp.com/api/dealers/fetch/${id}/cars`,
                 {params: {page: page}},
             );
             //maybe also get the name of the dealer?
@@ -28,7 +28,7 @@ export default function DealerCarPage() {
     const fetchDealerName = async () => {
         try {
             const aName = await axios.get(
-                `http://localhost:5000/api/dealers/${id}`,
+                `https://mpp1-7516832ded6b.herokuapp.com/api/dealers/${id}`,
             );
             setDealerName(aName.data.name);
         } catch (error) {

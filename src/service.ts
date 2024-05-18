@@ -5,7 +5,7 @@ import {Car} from './pages/Home/Home';
 export const checkServerService = async () => {
     let serverStatus = true;
     try {
-        await axios.get('http://localhost:5000/api/cars/13');
+        await axios.get('https://mpp1-7516832ded6b.herokuapp.com/api/cars/13');
     } catch (error) {
         serverStatus = false;
     }
@@ -25,7 +25,7 @@ export const syncWithServer = async () => {
 
                 try {
                     await axios.post(
-                        'http://localhost:5000/api/dealers/add',
+                        'https://mpp1-7516832ded6b.herokuapp.com/api/dealers/add',
                         dealer,
                     );
                 } catch (error) {
@@ -39,7 +39,7 @@ export const syncWithServer = async () => {
                 const car: Car = JSON.parse(record);
                 try {
                     await axios.post(
-                        'http://localhost:5000/api/cars/addCar',
+                        'https://mpp1-7516832ded6b.herokuapp.com/api/cars/addCar',
                         car,
                     );
                 } catch (error) {
@@ -62,10 +62,13 @@ export const getUser = () => {
     }
 };
 export const login = async (email: string, pass: string) => {
-    const {data} = await axios.post('http://localhost:5000/api/users/login', {
-        email,
-        pass,
-    });
+    const {data} = await axios.post(
+        'https://mpp1-7516832ded6b.herokuapp.com/api/users/login',
+        {
+            email,
+            pass,
+        },
+    );
     localStorage.setItem('user', JSON.stringify(data));
 
     return data;
@@ -76,7 +79,7 @@ export const logout = () => {
 };
 export const register = async (newUser) => {
     const {data} = await axios.post(
-        'http://localhost:5000/api/users/register',
+        'https://mpp1-7516832ded6b.herokuapp.com/api/users/register',
         newUser,
     );
     localStorage.setItem('user', JSON.stringify(data));
@@ -93,11 +96,14 @@ export const getAccess = async () => {
 
     if (token) {
         try {
-            await axios.get('http://localhost:5000/api/users/admin', {
-                headers: {
-                    Authorization: token,
+            await axios.get(
+                'https://mpp1-7516832ded6b.herokuapp.com/api/users/admin',
+                {
+                    headers: {
+                        Authorization: token,
+                    },
                 },
-            });
+            );
             return true;
         } catch (error) {
             console.log('user no rights');

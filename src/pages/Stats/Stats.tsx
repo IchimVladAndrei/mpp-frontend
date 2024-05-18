@@ -2,7 +2,7 @@ import axios from 'axios';
 import Chart from 'chart.js/auto';
 import {useEffect, useRef, useState} from 'react';
 import socketIOClient from 'socket.io-client';
-const socket = socketIOClient('http://localhost:5000');
+const socket = socketIOClient('https://mpp1-7516832ded6b.herokuapp.com');
 export default function Stats() {
     const chartRef = useRef<Chart | null>(null);
     const [prices, setPrices] = useState<number[]>([]);
@@ -16,7 +16,7 @@ export default function Stats() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    'http://localhost:5000/api/cars',
+                    'https://mpp1-7516832ded6b.herokuapp.com/api/cars',
                 );
                 const fetchedCars = response.data;
                 const getPrice = fetchedCars.map((car: Car) => car.price);

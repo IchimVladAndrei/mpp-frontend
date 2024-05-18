@@ -1,5 +1,3 @@
-import {faker} from '@faker-js/faker';
-
 import {con} from '../config/databaseConfig.js';
 export const read = async () => {
     return new Promise((resolve, reject) => {
@@ -156,17 +154,17 @@ export const updater = async (id, brand, price, yearBought) => {
     return [recordset, 1];
 };
 
-export function generateMoreCars() {
-    for (let i = 0; i < 1000; i++) {
-        try {
-            create(
-                faker.vehicle.manufacturer(),
-                faker.helpers.rangeToNumber({min: 1, max: 300}),
-                faker.helpers.rangeToNumber({min: 1950, max: 2024}),
-                //faker.helpers.rangeToNumber({min: 40, max: 10000}),
-            );
-        } catch (error) {
-            console.log('duplicat');
-        }
-    }
-}
+// export function generateMoreCars() {
+//     for (let i = 0; i < 1000; i++) {
+//         try {
+//             create(
+//                 faker.vehicle.manufacturer(),
+//                 faker.helpers.rangeToNumber({min: 1, max: 300}),
+//                 faker.helpers.rangeToNumber({min: 1950, max: 2024}),
+//                 //faker.helpers.rangeToNumber({min: 40, max: 10000}),
+//             );
+//         } catch (error) {
+//             console.log('duplicat');
+//         }
+//     }
+// }

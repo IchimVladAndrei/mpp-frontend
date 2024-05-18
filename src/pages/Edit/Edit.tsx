@@ -48,7 +48,7 @@ export default function Edit({
         const fetchData = async (id: number) => {
             try {
                 await axios.put(
-                    `http://localhost:5000/api/cars/updateCar/${id}`,
+                    `https://mpp1-7516832ded6b.herokuapp.com/api/cars/updateCar/${id}`,
                     newCar,
                 );
             } catch (error) {

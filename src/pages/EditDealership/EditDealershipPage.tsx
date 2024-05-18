@@ -27,7 +27,7 @@ export default function EditDealershipPage({
         const fetchData = async (id: number) => {
             try {
                 await axios.put(
-                    `http://localhost:5000/api/dealers/update/${id}`,
+                    `https://mpp1-7516832ded6b.herokuapp.com/api/dealers/update/${id}`,
                     newDealer,
                 );
             } catch (error) {

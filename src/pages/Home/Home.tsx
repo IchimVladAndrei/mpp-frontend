@@ -16,7 +16,7 @@ import {
     syncWithServer,
 } from '../../service.ts';
 import Edit from '../Edit/Edit.tsx';
-const socket = socketIOClient('http://localhost:5000');
+const socket = socketIOClient('https://mpp1-7516832ded6b.herokuapp.com');
 export type Car = {
     id: number;
     brand: string;
@@ -33,7 +33,9 @@ export default function Home() {
     };
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/cars');
+            const response = await axios.get(
+                'https://mpp1-7516832ded6b.herokuapp.com/api/cars',
+            );
             setCars(response.data);
         } catch (error) {
             console.log(error);
@@ -83,7 +85,7 @@ export default function Home() {
         }
         try {
             await axios.delete(
-                `http://localhost:5000/api/cars/deleteCar/${id}`,
+                `https://mpp1-7516832ded6b.herokuapp.com/api/cars/deleteCar/${id}`,
             );
             fetchData();
         } catch (error) {

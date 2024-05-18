@@ -16,11 +16,14 @@ export default function AddDealershipPage() {
             return;
         }
         try {
-            await axios.post('http://localhost:5000/api/dealers/add', {
-                name,
-                location,
-                reviews,
-            });
+            await axios.post(
+                'https://mpp1-7516832ded6b.herokuapp.com/api/dealers/add',
+                {
+                    name,
+                    location,
+                    reviews,
+                },
+            );
         } catch (error) {
             localStorage.setItem(
                 'addDealer' + Math.floor(Math.random() * 100),

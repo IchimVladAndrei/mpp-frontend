@@ -16,12 +16,15 @@ export default function Add() {
             return;
         }
         try {
-            await axios.post('http://localhost:5000/api/cars/addCar', {
-                brand,
-                price,
-                yearBought,
-                dealer,
-            });
+            await axios.post(
+                'https://mpp1-7516832ded6b.herokuapp.com/api/cars/addCar',
+                {
+                    brand,
+                    price,
+                    yearBought,
+                    dealer,
+                },
+            );
         } catch (error) {
             localStorage.setItem(
                 'addCar' + Math.floor(Math.random() * 100),

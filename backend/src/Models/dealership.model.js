@@ -1,4 +1,3 @@
-import {faker} from '@faker-js/faker';
 import {con} from '../config/databaseConfig.js';
 export const read = async () => {
     return new Promise((resolve, reject) => {
@@ -157,12 +156,12 @@ export const updater = async (id, name, location, reviews) => {
 };
 //DEALERS PAGINATING MAY NOT BE OK?
 
-export const generateThousandDealers = () => {
-    for (let i = 0; i < 0; i++) {
-        create(
-            faker.company.name(),
-            faker.location.city(),
-            faker.helpers.rangeToNumber({min: 10, max: 49}) / 10,
-        );
-    }
-};
+// export const generateThousandDealers = () => {
+//     for (let i = 0; i < 0; i++) {
+//         create(
+//             faker.company.name(),
+//             faker.location.city(),
+//             faker.helpers.rangeToNumber({min: 10, max: 49}) / 10,
+//         );
+//     }
+// };
