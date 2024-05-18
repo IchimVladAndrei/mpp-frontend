@@ -1,58 +1,161 @@
 import {faker} from '@faker-js/faker';
-import sql from 'mssql';
-import {poolPromise} from '../config/databaseConfig.js';
-
+import {con} from '../config/databaseConfig.js';
 export const read = async () => {
-    const pool = await poolPromise;
-    const res = await pool
-        .request()
-        .query('SELECT did AS id, name, location, reviews FROM Dealership');
-
-    return res.recordset;
+    return new Promise((resolve, reject) => {
+        con.query(
+            'SELECT did AS id, name, location, reviews FROM Dealership',
+            (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            },
+        );
+    });
 };
 
 export const paginateDealers = async (did, page) => {
-    const pool = await poolPromise;
-    const myQuery = `
-            SELECT cid AS id, brand, price, yearBought
-            FROM Cars
-            WHERE did = @did
-            ORDER BY cid
-            OFFSET @offset ROWS
-            FETCH NEXT @pageSize ROWS ONLY
-        `;
-
-    const pageSize = 50;
+    const pageSize = 1;
     const offset = (page - 1) * pageSize;
-    const res = await pool
-        .request()
-        .input('did', sql.Int, did)
-        .input('offset', sql.Int, offset)
-        .input('pageSize', sql.Int, pageSize)
-        .query(myQuery);
-    return res.recordset;
+    const myQuery = `
+        SELECT cid AS id, brand, price, yearBought
+        FROM Cars
+        WHERE did = ?
+        ORDER BY cid
+        LIMIT ?, ?
+    `;
+
+    return new Promise((resolve, reject) => {
+        con.query(myQuery, [did, offset, pageSize], (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
 };
 
 export const readById = async (id) => {
-    const pool = await poolPromise;
-    const res = await pool
-        .request()
-        .input('did', sql.Int, id)
-        .query(
-            'SELECT did AS id, name, location, reviews FROM Dealership WHERE did = @did',
+    return new Promise((resolve, reject) => {
+        con.query(
+            'SELECT did AS id, name, location, reviews FROM Dealership WHERE did = ?',
+            [id],
+            (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    const rowsAffected = result.length > 0 ? 1 : 0;
+                    resolve([result[0], rowsAffected]);
+                }
+            },
         );
-    const rowsAffected = res.recordset.length > 0 ? 1 : 0;
-    return [res.recordset[0], rowsAffected];
+    });
 };
 
 export const deleter = async (id) => {
-    const pool = await poolPromise;
-    const res = await pool
-        .request()
-        .input('did', sql.Int, id)
-        .query('DELETE FROM Dealership WHERE did = @did');
-    return res.rowsAffected;
+    return new Promise((resolve, reject) => {
+        con.query(
+            'DELETE FROM Dealership WHERE did = ?',
+            [id],
+            (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result.affectedRows);
+                }
+            },
+        );
+    });
 };
+
+export const create = async (name, location, reviews) => {
+    try {
+        console.log(reviews);
+        await new Promise((resolve, reject) => {
+            con.query(
+                'INSERT INTO Dealership (name, location, reviews) VALUES (?, ?, ?)',
+                [name, location, reviews],
+                (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(); //result?>
+                    }
+                },
+            );
+        });
+
+        const maxIdRes = await new Promise((resolve, reject) => {
+            con.query(
+                'SELECT MAX(did) AS maxId FROM Dealership',
+                (err, result) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(result[0].maxId);
+                    }
+                },
+            );
+        });
+
+        const insertedDealerQuery = await new Promise((resolve, reject) => {
+            con.query(
+                'SELECT did AS id, name, location, reviews FROM Dealership WHERE did = ?',
+                [maxIdRes],
+                (err, result) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve({
+                            id: result[0].id,
+                            name: result[0].name,
+                            location: result[0].location,
+                            reviews: result[0].reviews,
+                        });
+                    }
+                },
+            );
+        });
+        return insertedDealerQuery;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const updater = async (id, name, location, reviews) => {
+    await new Promise((resolve, reject) => {
+        con.query(
+            'UPDATE Dealership SET name = ?, location = ?, reviews = ? WHERE did = ?',
+            [name, location, reviews, id],
+            (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result.affectedRows);
+                }
+            },
+        );
+    });
+
+    const recordset = await new Promise((resolve, reject) => {
+        con.query(
+            'SELECT did AS id, name, location, reviews FROM Dealership WHERE did = ?',
+            [id],
+            (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result[0]);
+                }
+            },
+        );
+    });
+
+    return [recordset, 1];
+};
+//DEALERS PAGINATING MAY NOT BE OK?
 
 export const generateThousandDealers = () => {
     for (let i = 0; i < 0; i++) {
@@ -62,53 +165,4 @@ export const generateThousandDealers = () => {
             faker.helpers.rangeToNumber({min: 10, max: 49}) / 10,
         );
     }
-};
-
-export const create = async (name, location, reviews) => {
-    const pool = await poolPromise;
-    await pool
-        .request()
-        .input('name', sql.VarChar(50), name)
-        .input('location', sql.VarChar(50), location)
-        .input('reviews', sql.Decimal(3, 2), reviews) //ID WILL BE DONE VIA SQL SERVER
-        .query(
-            'INSERT INTO Dealership (name,location,reviews) VALUES (@name,@location,@reviews)',
-        );
-    const maxIdRes = await pool
-        .request()
-        .query('SELECT MAX(did) AS maxId FROM Dealership');
-
-    const lastId = maxIdRes.recordset[0].maxId;
-
-    const insertedDealerQuery = await pool
-        .request()
-        .input('did', sql.Int, lastId)
-        .query(
-            'SELECT did AS id, name,location,reviews FROM Dealership WHERE did=@did ',
-        );
-
-    return insertedDealerQuery.recordset[0];
-};
-
-export const updater = async (id, name, location, reviews) => {
-    const pool = await poolPromise;
-    const res = await pool
-        .request()
-        .input('did', sql.Int, id)
-        .input('name', sql.VarChar(50), name)
-        .input('location', sql.VarChar(50), location)
-        .input('reviews', sql.Decimal(3, 2), reviews)
-        .query(
-            'UPDATE Dealership SET name=@name,location=@location,reviews=@reviews WHERE did=@did',
-        );
-    // Fetch and return the updated
-    const {recordset} = await pool
-        .request()
-        .input('did', sql.Int, id)
-        .query(
-            'SELECT did AS id, name,location,reviews FROM Dealership WHERE did=@did',
-        );
-
-    // Return the first (and only) row from the recordset
-    return [recordset[0], res.rowsAffected];
 };

@@ -7,7 +7,7 @@ export default function AddDealershipPage() {
     const {access} = useAuth();
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
-    const [review, setReview] = useState(1.0);
+    const [reviews, setReviews] = useState(1.0);
     const hist = useNavigate();
 
     const handleAdd = async () => {
@@ -19,7 +19,7 @@ export default function AddDealershipPage() {
             await axios.post('http://localhost:5000/api/dealers/add', {
                 name,
                 location,
-                review,
+                reviews,
             });
         } catch (error) {
             localStorage.setItem(
@@ -27,7 +27,7 @@ export default function AddDealershipPage() {
                 JSON.stringify({
                     name: name,
                     location: location,
-                    reviews: review,
+                    reviews: reviews,
                 }),
             );
             console.log('add dealer error', error);
@@ -63,7 +63,7 @@ export default function AddDealershipPage() {
                     name='reviews'
                     placeholder='enter a review...'
                     onChange={(e) => {
-                        setReview(e.target.valueAsNumber);
+                        setReviews(e.target.valueAsNumber);
                     }}
                     min={1}
                     max={5}

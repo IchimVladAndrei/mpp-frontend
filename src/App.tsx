@@ -3,7 +3,6 @@ import './App.css';
 import './axios.config';
 import DealerCarPage from './components/DealerCarPage';
 import Header from './components/Header/Header';
-import NetDetector from './components/netDetector/netDetector';
 import Add from './pages/Add/Add';
 import AddDealershipPage from './pages/AddDealership/AddDealershipPage';
 import DealershipPage from './pages/Dealership/DealershipPage';
@@ -15,30 +14,22 @@ function App() {
     //i may want to delete netdetector
     return (
         <>
-            <NetDetector>
-                <BrowserRouter>
-                    <Header />
-                    <Routes>
-                        <Route
-                            path='/viewDealer/:id'
-                            Component={DealerCarPage}
-                        />
-                        <Route path='/' element={<Home />} />
-                        <Route path='/add' element={<Add />} />
-                        <Route path='/stats' element={<Stats />} />
-                        <Route
-                            path='/dealerships'
-                            element={<DealershipPage />}
-                        />
-                        <Route
-                            path='/dealership/add'
-                            element={<AddDealershipPage />}
-                        />
-                        <Route path='/login' element={<LoginPage />} />
-                        <Route path='/register' element={<RegisterPage />} />
-                    </Routes>
-                </BrowserRouter>
-            </NetDetector>
+            <BrowserRouter>
+                <Header />
+                <Routes>
+                    <Route path='/viewDealer/:id' Component={DealerCarPage} />
+                    <Route path='/' element={<Home />} />
+                    <Route path='/add' element={<Add />} />
+                    <Route path='/stats' element={<Stats />} />
+                    <Route path='/dealerships' element={<DealershipPage />} />
+                    <Route
+                        path='/dealership/add'
+                        element={<AddDealershipPage />}
+                    />
+                    <Route path='/login' element={<LoginPage />} />
+                    <Route path='/register' element={<RegisterPage />} />
+                </Routes>
+            </BrowserRouter>
         </>
     );
 }

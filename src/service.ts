@@ -5,7 +5,7 @@ import {Car} from './pages/Home/Home';
 export const checkServerService = async () => {
     let serverStatus = true;
     try {
-        await axios.get('http://localhost:5000/api/cars/1');
+        await axios.get('http://localhost:5000/api/cars/13');
     } catch (error) {
         serverStatus = false;
     }
