@@ -26,17 +26,20 @@ export const userByEmail = async (email) => {
                     reject(err);
                 } else {
                     const user = result[0];
+
+                    console.log('line 28 ', user);
                     if (user) {
                         // Convert isAdmin from Buffer to Boolean
                         user.isAdmin = user.isAdmin[0] === 1;
                     }
-                    resolve({
-                        id: user.id,
-                        email: user.email,
-                        isAdmin: user.isAdmin,
-                        name: user.name,
-                        pass: user.pass,
-                    });
+                    resolve(user);
+                    // resolve({
+                    //     id: user.id,
+                    //     email: user.email,
+                    //     isAdmin: user.isAdmin,
+                    //     name: user.name,
+                    //     pass: user.pass,
+                    // });
                 }
             },
         );
